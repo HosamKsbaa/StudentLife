@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Progress Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Load Mermaid as a global script -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <input type="text" id="studentIdInput" placeholder="Enter Student ID">
+    <button id="fetchButton">Fetch Progress</button>
+    <div id="progressContainer"></div>
+
+    <script>
+        // Initialize Mermaid globally
+        mermaid.initialize({ startOnLoad: false });
+
+        document.getElementById('fetchButton').addEventListener('click', function() {
+            const studentId = document.getElementById('studentIdInput').value;
+            if (studentId) {
+                fetch(`http://localhost:8122/student/${studentId}/progress`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(progressText => {
+                        let html = marked.parse(progressText);
+                        const container = document.getElementById('progressContainer');
+                        container.innerHTML = html;
+
+                        container.querySelectorAll('pre code.language-mermaid').forEach(function(node) {
+                            let codeContent = node.textContent.replace(/^"|"$/g, '').replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
+                            
+                            let mermaidPre = document.createElement('pre');
+                            mermaidPre.className = 'mermaid';
+                            mermaidPre.textContent = codeContent;
+
+                            node.parentNode.replaceWith(mermaidPre);
+                        });
+
+                        // Directly call mermaid to initialize diagrams after updating the DOM
+                        mermaid.init(undefined, container.querySelectorAll('.mermaid'));
+                    })
+                    .catch(error => {
+                        console.error('Error fetching student progress:', error);
+                        alert('Failed to fetch progress. Make sure the student ID is correct and the server is running.');
+                    });
+            } else {
+                alert('Please enter a student ID.');
+            }
+        });
+    </script>
+</body>
+</html>

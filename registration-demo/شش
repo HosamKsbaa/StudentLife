@@ -1,0 +1,295 @@
+from typing import List, Optional, Union
+from pydantic import BaseModel
+import csv
+import json
+import os
+from typing import List
+from pydantic import BaseModel, Field
+from typing import Optional
+class Category(BaseModel):
+    name: str
+    required_credits: int
+    sub_of: Optional[str]
+class Reason(BaseModel):
+    check_type: str
+    pass_or_fail: bool
+    state_description: str
+    reference_to_prerequisite: Optional['Prerequisite'] = None
+class Prerequisite(BaseModel):
+    course: Optional['Course'] = None
+
+    def pass_check(self, student: 'Student') -> Reason:
+        # Check if self.course is None before trying to access its attributes
+        if self.course:
+            if self.course in student.courses_taken:
+                return Reason(
+                    check_type="PrerequisiteCheck",
+                    pass_or_fail=True,
+                    state_description=f"Student has passed the prerequisite course: {self.course.name}",
+                    reference_to_prerequisite=self
+                )
+            else:
+                return Reason(
+                    check_type="PrerequisiteCheck",
+                    pass_or_fail=False,
+                    state_description=f"Student has not taken or not passed the prerequisite course: {self.course.code} {self.course.name} ",
+                    reference_to_prerequisite=self
+                )
+        else:
+            # Handle the case where self.course is None
+            return Reason(
+                check_type="PrerequisiteCheck",
+                pass_or_fail=False,
+                state_description="Prerequisite course information is missing",
+                reference_to_prerequisite=self  # Include this field even when self.course is None
+            )
+class CoursePreqest(Prerequisite):
+    course: 'Course'  # Reference to the course for which this is a prerequisite
+
+    def pass_check(self, student: 'Student') -> Reason:
+        # Ensure that this prerequisite's course is not None
+        if not self.course:
+            return Reason(
+                check_type="CoursePrerequisiteCheck",
+                pass_or_fail=False,
+                state_description="Prerequisite course information is missing",
+                reference_to_prerequisite=self
+            )
+
+        # Check if the student has taken and passed all the prerequisite courses
+        for prereq in self.course.prerequisites:
+            # Ensure that each prerequisite's course is not None
+            if prereq.course and not student.has_passed_course(prereq.course):
+                return Reason(
+                    check_type="CoursePrerequisiteCheck",
+                    pass_or_fail=False,
+                    state_description=f"Student has not taken or not passed the prerequisite course: {prereq.course.code} {prereq.course.name}",
+                    reference_to_prerequisite=prereq
+                )
+        
+        # If all prerequisites are met
+        return Reason(
+            check_type="CoursePrerequisiteCheck",
+            pass_or_fail=True,
+            state_description="Student has passed all prerequisite courses",
+            reference_to_prerequisite=self
+        )
+class Other(Prerequisite):
+    # Specific fields for other types of prerequisites (like TOEFL score)
+    description: str
+class Course(BaseModel):
+    code: str
+    name: str
+    category: Category
+    prerequisites: List[Union[CoursePreqest, Other]] = []
+    is_available_this_term: bool
+    credits: int
+
+    typical_year: int
+    term: int
+    for_prereqs: List['Course'] = []  # Courses that have this course as a prerequisite
+    def serialize_for_json(self):
+            return {
+                "code": self.code,
+                "name": self.name,
+                'credits': self.credits,
+                "category": self.category.name if self.category else None,
+                "is_available_this_term": self.is_available_this_term,
+                "typical_year": self.typical_year,
+                "term": self.term,
+                # Exclude 'prerequisites' and 'for_prereqs' to prevent circular references
+            }
+class Student(BaseModel):
+    id: str
+    courses_taken: List[Course] = []
+
+    def get_current_credit(self) -> int:
+        return sum(course.category.required_credits for course in self.courses_taken)
+
+    def has_passed_course(self, course: Course) -> bool:
+        return course in self.courses_taken
+class Reason(BaseModel):
+    check_type: str
+    pass_or_fail: bool
+    state_description: str
+    reference_to_prerequisite: Prerequisite
+
+# ================================
+class Data:
+    def __init__(self, categories_file_path: str, courses_file_path: str, mapping_file_path: str, students_file_path: str):
+        self.categories = self.load_categories(categories_file_path)
+        self.courses = self.load_courses(courses_file_path)
+        self.mapping = self.load_course_mapping(mapping_file_path)
+        self.students = self.load_students(students_file_path)
+
+    def load_categories(self, file_path: str) -> List[Category]:
+        categories = []
+        with open(file_path, mode='r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                categories.append(Category(
+                    name=row['Subject Area'],
+                    required_credits=int(row['Number of Credits']),
+                    sub_of=row.get('SubOf')
+                ))
+        return categories
+
+    def load_courses(self, file_path: str) -> List[Course]:
+        category_dict = {category.name: category for category in self.categories}
+        courses = []
+        courses_dict = {}  # Temporary dictionary to hold course objects for prerequisite mapping
+
+        with open(file_path, mode='r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                category = category_dict.get(row['Categories'])
+
+                if category is None:
+                    print(f"Warning: Category '{row['Categories']}' not found. Skipping course '{row['Name']}'")
+                    continue
+
+                new_course = Course(
+                    code=row['Code'],
+                    name=row['Name'],
+                    category=category,
+                    prerequisites=[],  # To be filled later
+                    is_available_this_term=row['Avilable this term '].strip().lower() == 'yes',
+                    credits=int(row['credits']),
+                    typical_year=int(row['Year']),
+                    term=int(row['Semester']),
+                    for_prereqs=[]  # To be filled later
+                )
+                courses_dict[new_course.code] = new_course
+                courses.append(new_course)
+
+        # Parse prerequisites with a second pass
+        for row in reader:
+            course = courses_dict.get(row['Code'])
+            if course:
+                course.prerequisites = self.parse_prerequisites(row['Prerequisites'], courses_dict)
+
+        return courses
+
+    def parse_prerequisites(self, prereq_str: str, courses_dict: Dict[str, Course]) -> List[Prerequisite]:
+        prerequisites = []
+        if prereq_str:
+            prereq_codes = prereq_str.split(',')
+            for code in prereq_codes:
+                if code in courses_dict:
+                    prerequisites.append(Prerequisite(course=courses_dict[code]))
+        return prerequisites
+
+    def load_course_mapping(self, file_path: str) -> Dict[str, str]:
+        mapping = {}
+        with open(file_path, mode='r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                mapping[row['StudentCourseCode']] = row['CourseCode']
+        return mapping
+
+    def load_students(self, file_path: str) -> List[Student]:
+        students = []
+        with open(file_path, mode='r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                student_courses = [self.courses_dict[code] for code in row['Courses'].split(',') if code in self.courses_dict]
+                students.append(Student(
+                    id=row['StudentID'],
+                    courses_taken=student_courses
+                ))
+        return students
+# ==================================
+class Controller:
+    def __init__(self, data: Data):
+        self.data = data
+
+    def calculate_category_credits(self, student: Student) -> dict:
+        credits_earned = {category.name: 0 for category in self.data.categories}
+        for course in student.courses_taken:
+            if course.category:
+                credits_earned[course.category.name] += course.credits
+        return credits_earned
+
+    def get_eligible_courses(self, student: Student) -> dict:
+        eligible_courses = {}
+        ineligible_courses = {}
+        category_credits = self.calculate_category_credits(student)
+
+        for course in self.data.courses:
+            if not course.is_available_this_term or course in student.courses_taken:
+                continue
+
+            category_name = course.category.name if course.category else "Uncategorized"
+            required_credits = course.category.required_credits if course.category else 0
+            earned_credits = category_credits.get(category_name, 0)
+            credits_remaining = required_credits - earned_credits
+
+            if credits_remaining <= 0:
+                if category_name not in ineligible_courses:
+                    ineligible_courses[category_name] = []
+                reason = f"Category '{category_name}' credit requirement already fulfilled."
+                ineligible_courses[category_name].append({'course': course.serialize_for_json(), 'reasons': [reason]})
+                continue
+
+            can_take, reasons = self.check_prerequisites(student, course)
+
+            if can_take:
+                if category_name not in eligible_courses:
+                    eligible_courses[category_name] = []
+                course_info = course.serialize_for_json()
+                course_info['category_progress'] = f"{earned_credits}/{required_credits} credits completed. Can take up to {credits_remaining} more credits."
+                course_info['dependency_tree'] = self.build_dependency_tree(course)
+                eligible_courses[category_name].append(course_info)
+            else:
+                if category_name not in ineligible_courses:
+                    ineligible_courses[category_name] = []
+                ineligible_courses[category_name].append({'course': course.serialize_for_json(), 'reasons': reasons})
+
+        return {'eligible_courses': eligible_courses, 'ineligible_courses': ineligible_courses}
+
+    def check_prerequisites(self, student: Student, course: Course) -> (bool, list):
+        can_take = True
+        reasons = []
+        for prereq in course.prerequisites:
+            reason = prereq.pass_check(student)
+            if not reason.pass_or_fail:
+                can_take = False
+                reasons.append(reason.state_description)
+        return can_take, reasons
+
+    def build_dependency_tree(self, course: Course) -> dict:
+        tree = {
+            "code": course.code,
+            "name": course.name,
+            "typical_year": course.typical_year,
+            "term": course.term,
+            "category": course.category.name if course.category else "Uncategorized",
+            "credits": course.credits,
+            "dependencies": [self.build_dependency_tree(dependent_course) for dependent_course in course.for_prereqs]
+        }
+        return tree
+
+    def create_dependency_graph(self, eligible_courses):
+        graph = "graph TD\n"
+        added_nodes = set()
+
+        def add_course_with_dependencies(course, is_root=True):
+            nonlocal graph
+            if course['code'] not in added_nodes:
+                course_label = sanitize_for_mermaid(f"{course['code']}[\"{course['name']} \\n {course['category']} |\\nYear: {course['typical_year']} Term: {course['term']}\\n Credits: {course['credits']}\"]")
+                graph += f"    {course_label}\n"
+                added_nodes.add(course['code'])
+            
+            if is_root:
+                for dependency in course['dependency_tree']['dependencies']:
+                    graph += f"    {course['code']} --> {dependency['code']}\n"
+                    add_course_with_dependencies(dependency, is_root=False)
+
+        for category_courses in eligible_courses.values():
+            for course in category_courses:
+                if course['dependency_tree']['dependencies']:
+                    add_course_with_dependencies(course)
+
+        return graph
+
+

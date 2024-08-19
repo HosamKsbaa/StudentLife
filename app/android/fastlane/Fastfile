@@ -1,0 +1,167 @@
+# fastlane drive2 app_name:NUStudentJourney
+# fastlane up2 app_name:payApp
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a lisdt of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+#      desc "Runs all the tests"
+#      lane :test do
+#        gradle(task: "test")
+#      end
+    lane :drive do
+      ensure_git_status_clean()
+      build_number = number_of_commits()
+
+      # Define paths relative to the Fastlane file's location
+      folder_id = '1UVo-uTBEbhpYQmzRcHcN1mtN6RkiKO4j'
+      file_path = '../../build/app/outputs/flutter-apk/app-release.apk'
+      file_name = 'app-release.aab'
+      venv_python = '../../.dev/DevOpsPython/venv/bin/python3' # Adjust for Windows if necessary
+
+#
+      Dir.chdir "../.." do
+        sh("flutter", "packages", "get")
+        sh("flutter", "clean")
+        sh("flutter", "build", "apk", "--build-number=#{build_number}")
+      end
+
+      Dir.chdir "../../.dev/DevOpsPython" do
+        # Create the virtual environment
+        sh("python3 -m venv venv")
+        # Install the requirements
+        sh("#{venv_python} -m pip install -r requirements.txt")
+        sh("#{venv_python} upload_to_drive.py  '#{folder_id}' '#{file_path}' '#{file_name}'")
+
+      end
+    end
+
+# fastlane drive2 app_name:accountGold
+    lane :drive2 do |options|
+#       ensure_git_status_clean()
+      build_number = number_of_commits()
+
+      # Define paths relative to the Fastlane file's location
+      folder_id = '1UVo-uTBEbhpYQmzRcHcN1mtN6RkiKO4j'
+      file_path = '../../build/app/outputs/flutter-apk/app-release.apk'
+      file_name = "#{build_number}_#{options[:app_name]}_app.apk"
+
+        if RUBY_PLATFORM =~ /win32|w32|mswin|mingw|cygwin/
+          venv_python = '../../.dev/DevOpsPython/venv/Scripts/python.exe' # Windows
+        else # Linux
+          venv_python = '../../.dev/DevOpsPython/venv/bin/python3' # Other unix systems
+        end
+
+
+      Dir.chdir "../../.dev/DevOpsPython" do
+
+        # Create the virtual environment
+        sh("python3 -m venv venv")
+        # Install the requirements
+        sh("#{venv_python} -m pip install -r requirements.txt")
+        sh("#{venv_python} versionControler.py #{options[:app_name]} ")
+      end
+
+      Dir.chdir "../.." do
+        sh("fvm flutter packages get")
+        sh("fvm dart run package_rename -p assets/#{options[:app_name]}/config.yaml")
+        sh("fvm flutter pub run flutter_launcher_icons:main -f assets/#{options[:app_name]}/config.yaml")
+                sh("fvm dart run flutter_native_splash:create --path=assets/#{options[:app_name]}/config.yaml")
+        sh("fvm flutter clean")
+        sh("fvm flutter build apk --release --build-number=#{build_number}")
+
+     end
+
+      Dir.chdir "../../.dev/DevOpsPython" do
+        sh("#{venv_python} upload_to_drive.py  #{folder_id} #{file_path} #{file_name}")
+
+      end
+    end
+
+# fastlane drive2 app_name:shanqiti
+    lane :up2 do |options|
+#       ensure_git_status_clean()
+      build_number = number_of_commits()
+
+      # Define paths relative to the Fastlane file's location
+      folder_id = '1UVo-uTBEbhpYQmzRcHcN1mtN6RkiKO4j'
+      file_path = '../../build/app/outputs/bundle/release/app-release.aab'
+      file_name = "#{build_number}_#{options[:app_name]}_app.aab"
+
+        if RUBY_PLATFORM =~ /win32|w32|mswin|mingw|cygwin/
+          venv_python = '../../.dev/DevOpsPython/venv/Scripts/python.exe' # Windows
+        else # Linux
+          venv_python = '../../.dev/DevOpsPython/venv/bin/python3' # Other unix systems
+        end
+
+
+      Dir.chdir "../../.dev/DevOpsPython" do
+
+        # Create the virtual environment
+        sh("python3 -m venv venv")
+        # Install the requirements
+        sh("#{venv_python} -m pip install -r requirements.txt")
+        sh("#{venv_python} versionControler.py #{options[:app_name]} ")
+      end
+
+      Dir.chdir "../.." do
+        sh("fvm flutter packages get")
+        sh("fvm dart run package_rename -p assets/#{options[:app_name]}/config.yaml")
+#         sh("fvm flutter pub run flutter_launcher_icons:main -f assets/#{options[:app_name]}/config.yaml")
+#          sh("fvm dart run flutter_native_splash:create --path=assets/#{options[:app_name]}/config.yaml")
+
+        sh("fvm flutter clean")
+        sh("fvm flutter build appbundle --release --build-number=#{build_number}")
+     end
+
+
+
+
+      config = YAML.load_file("../../assets/#{options[:app_name]}/config.yaml")
+      package_name = config['package_rename_config']['android']['package_name']
+      upload_to_play_store(
+        timeout: 2000,
+        track: 'internal',
+        package_name: package_name,
+        aab: '../build/app/outputs/bundle/release/app-release.aab',
+        skip_upload_metadata: true,
+        skip_upload_images: true,
+        skip_upload_screenshots: true
+      )
+#         sh("#{venv_python} upload_to_drive.py  #{folder_id} #{file_path} #{file_name}")
+#
+#       end
+    end
+
+    desc "Deploy a new beta build to Google Play"
+    lane :up do
+      ensure_git_status_clean()
+      build_number = number_of_commits()
+      Dir.chdir "../.." do
+        sh("flutter", "packages", "get")
+        sh("flutter", "clean")
+        sh("flutter", "build", "appbundle", "--build-number=#{build_number}")
+      end
+      upload_to_play_store(track: 'internal', aab: '../build/app/outputs/bundle/release/app-release.aab')
+
+    end
+
+#   desc "Deploy a new version to the Google Play"
+#   lane :deploy do
+#     gradle(task: "clean assembleRelease")
+#     upload_to_play_store
+#   end
+end

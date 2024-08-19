@@ -1,0 +1,66 @@
+no.,Categories,Code,,Name,credits,,Count,preq corses,preq other,Avilable this term ,Year,Semester
+1,English,ENGL001,1,Intensive English,0,"Minimum score of 400 on TOEFL ITP, 4.5 on IELTS, 32 on TOEFL IBT, B1 on APTIS, or passing NU writing exam",0,,"Minimum score of 400 on TOEFL ITP, 4.5 on IELTS, 32 on TOEFL IBT, B1 on APTIS, or passing NU writing exam",0,0,0
+2,English,ENGL101,1,English 101,0,Minimum score of 500 on the TOEFL or passing NU writing exam,2,ENGL101,Minimum score of 500 on the TOEFL or passing NU writing exam,0,1,1
+3,English,ENGL102,1,English 102,0,ENGL101 English 101,1,ENGL101,,1,1,2
+4,English,ENGL201,1,Scientific Writing,3,ENGL102 English 102,1,ENGL102,,1,0,0
+5,English,ENGL202,1,Communication & Presentation Skills,3,ENGL201 Scientific Writing,0,ENGL201,,0,0,0
+6,Humanities,HUMA101,3,Introduction to Logic and Critical Thinking,2,Thanaweya Amma or equivalent,0,,Thanaweya Amma or equivalent,1,0,0
+7,Humanities,HUMA102,2,Introduction to Ethics,2,Thanaweya Amma or equivalent,0,,Thanaweya Amma or equivalent,1,0,0
+8,Humanities,HUMA103,5,Selected Topics in Humanities & Arts,2,Thanaweya Amma or equivalent,0,,Thanaweya Amma or equivalent,0,0,0
+9,Social Sciences,SSCI101,1,Selected Topics in Egyptian & Arab Heritage,2,Thanaweya Amma or equivalent,0,,,0,0,0
+10,Social Sciences,SSCI102,3,Selected Topics in World Cultures & Diversity,2,Thanaweya Amma or equivalent,0,,,0,0,0
+11,Social Sciences,SSCI103,5,Selected Topics in Social Sciences,2,Thanaweya Amma or equivalent,0,,,0,0,0
+12,Physics,PHYS101,1,Physics I,4,MATH 111 Analytical Geometry & Calculus I or concurrent enrollment,1,MATH111,,0,1,1
+13,Mathematics,MATH100,1,Mathematics,0,Thanaweya Amma or equivalent,0,,Thanaweya Amma or equivalent,0,1,1
+14,Mathematics,MATH111,1,Analytical Geometry & Calculus I,3,Thanaweya Amma or equivalent,6,,Thanaweya Amma or equivalent,0,1,1
+15,Mathematics,MATH112,1,Calculus II,3,MATH111 Analytical Geometry & Calculus I,0,MATH111,,1,1,2
+16,Mathematics,MATH113,1,Probability & Statistics,3,MATH111 Analytical Geometry & Calculus I,1,MATH111,,0,1,2
+17,Mathematics,MATH211,1,Discrete Mathematics,3,MATH111 Analytical Geometry & Calculus I,0,MATH111,,1,0,0
+18,Mathematics,MATH221,1,Linear Algebra,3,MATH111 Analytical Geometry & Calculus I,0,MATH111,,0,0,0
+19,Mathematics,MATH222,1,Differential Equations,3,MATH111 Analytical Geometry & Calculus I,0,MATH111,,1,0,0
+20,cs Compulsory,CSCI101,1,Computer & Information Skills,3,Thanaweya Amma or equivalent,2,,Thanaweya,0,1,1
+21,cs Compulsory,CSCI111,0,Structured Programming,3,CSCI101 Computer & Information Skills Or concurrent,1,CSCI101,,#N/A,1,1
+22,cs Compulsory,CSCI112,1,Object Oriented Programming,3,CSCI111 Structured Programming Or concurrent,2,CSCI111,,1,1,2
+23,cs Compulsory,ECEN121,1,Electric and Electronic Circuits,3,PHYS101 Physics I,1,PHYS101,,1,1,2
+24,cs Compulsory,CSCI122,1,Introduction to Computer Systems,3,CSCI101 Computer & Information Skills Or concurrent,0,CSCI101,,0,1,2
+25,cs Compulsory,CSCI207,1,Algorithms,3,CSCI112 Object Oriented Programming,4,CSCI112,,0,0,0
+26,cs Compulsory,CSCI208,1,Design and Analysis of Algorithms,3,CSCI207 Data Structures and Algorithms,0,CSCI207,,1,0,0
+27,cs Compulsory,CSCI212,1,Logic Design and Lab,3,ECEN121 Electric and Electronic Circuits,1,ECEN121,,1,0,0
+28,cs Compulsory,CSCI217,1,Advanced Programming,3,CSCI207 Data Structures and Algorithms,6,CSCI207,,1,0,0
+29,cs Compulsory,CSCI305,1,Database Systems,3,CSCI217 Advanced Programming,1,CSCI217,,0,3,1
+30,cs Compulsory,CSCI311,1,Computer Architecture,3,CSCI212 Logic Design and Lab,1,CSCI212,,0,3,1
+31,cs Compulsory,CSCI315,1,Operating Systems,3,CSCI311 Computer Architecture,2,CSCI311,,1,3,2
+32,cs Compulsory,CSCI410,1,Introduction to IoT,3,CSCI 315 Operating Systems,0,CSCI315,,0,4,1
+33,cs Elective,CSCI304,1,System Analysis and Design,3,CSCI217 Advanced Programming,0,CSCI217,,0,0,0
+34,cs Elective,CSCI313,1,Software Engineering,3,CSCI217 Advanced Programming,0,CSCI217,,0,0,0
+35,cs Elective,CSCI322,1,Data Science,3,MATH113 Probability & Statistics,0,MATH113,,0,0,0
+36,cs Elective,CSCI364,1,Programming Numerical Methods,3,CSCI112 Object Oriented Programming,0,CSCI112,,0,0,0
+37,cs Elective,CSCI415,1,Compiler Design and Construction,3,CSCI207 Data Structures and Algorithms,0,CSCI207,,0,0,0
+38,AI Compulsory,AIS201,1,Artificial Intelligence,3,CSCI207 Data Structures and Algorithms,1,CSCI207,,1,0,0
+39,AI Compulsory,AIS301,1,Machine Learning,3,AIS201 Artificial Intelligence,9,AIS201,,1,3,1
+40,AI Compulsory,AIS302,1,Artificial Neural Networks,3,AIS301 Machine Learning,1,AIS301,,1,3,2
+41,AI Compulsory,AIS323,1,Optimization Techniques,3,AIS301 Machine Learning,0,AIS301,,1,3,2
+42,AI Compulsory,AIS331,1,Data Mining and Statistical Analytics,3,AIS301 Machine Learning,0,AIS301,,1,3,2
+43,AI Compulsory,AIS351,1,Digital Image Processing,3,CSCI217 Advanced Programming,1,CSCI217,,1,3,2
+44,AI Compulsory,CSCI363,1,Cloud Computing and Networking,3,CSCI217 Advanced Programming,1,CSCI217,,0,3,1
+45,AI Compulsory,AIS411,1,Natural Language Processing,3,AIS301 Machine Learning,1,AIS301,,0,4,1
+46,AI Compulsory,CSCI461,1,Big Data Analytics,3,CSCI305 Database Systems,1,CSCI305,,0,4,1
+47,AI Elective,AIS412,1,Deep Learning,3,AIS302 Artificial Neural Networks,0,AIS302,,0,0,0
+48,AI Elective,AIS421,1,NLP Applications,3,AIS411 Natural Language Processing,0,AIS411,,1,0,0
+49,AI Elective,AIS431,1,Intelligent Decision Support Systems,3,AIS301 Machine Learning,0,AIS301,,1,0,0
+50,AI Elective,AIS455,1,Computer Vision,3,AIS351 Digital Image Processing,0,AIS351,,0,0,0
+51,AI Elective,AIS462,1,Computational Intelligence,3,CSCI461 Big Data Analytics,0,CSCI461,,1,0,0
+52,AI Elective,AIS463,1,Knowledge Based Systems,3,AIS301 Machine Learning,0,AIS301,,0,4,2
+53,AI Elective,CSCI465,1,Introduction to Parallel Computing,3,CSCI363 Cloud Computing and Networking,0,CSCI363,,1,0,0
+54,AI Elective,CSCI469,1,Selected Topics in Big Data and Data Science,3,AIS301 Machine Learning,0,AIS301,,0,0,0
+55,AI Elective,AIS477,1,Selected Topics in Artificial Intelligence,3,AIS301 Machine Learning,0,AIS301,,1,4,0
+56,AI Elective,CSCI478,1,High Performance computing,3,CSCI217 Advanced Programming,0,CSCI217,,1,4,0
+57,AI Elective,CSCI479,1,Multimedia systems,3,"AIS 301 Machine Learning
+AIS 351 Digital Image Processing",0,AIS351/AIS 301,,0,0,0
+58,AI Elective,AIS480,1,Expert Systems,3,AIS301 Machine Learning,0,AIS301,,0,0,0
+59,AI Elective,CSCI481,1,Real Time Operating Systems,3,CSCI315 Operating Systems,0,CSCI315,,0,0,0
+60,AI Elective,CSCI482,1,Information and Cyber Security,3,"CSCI122 Introduction to Computer Systems, CSCI315 Operating Systems, CSCI363 Cloud Computing and Networking",0,CSCI122/CSCI315/CSCI363,,0,0,0
+61,Industrial/Research,AIS390,1,Industrial/Research,2,Junior Standing,0,,Junior Standing,0,3,1
+62,Industrial/Research,AIS490,1,Industrial/Research Training I,2,Senior Standing,0,,Senior Standing,0,4,1
+63,Industrial/Research,AIS495,1,Senior Project I,3,Senior Standing,0,,Senior Standing,0,4,1
+64,Industrial/Research,AIS496,1,Senior Project II,3,CSCI495 Senior Project I,0,CSCI495,Senior Standing,0,4,2

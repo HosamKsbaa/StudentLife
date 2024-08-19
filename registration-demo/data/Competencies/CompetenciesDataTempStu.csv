@@ -1,0 +1,28 @@
+Category,Sub-Category,211001892,211001926,211001948,211001978,211002041,211002132,211002176,211002194,212002407,221001592,211001978,Top of Class,Average Scores,Required in Market,Highest Honors,Top 5%,Top 25%,Industry Standard,Above Average,Below Average,Market Demand,Peer Average,Excellence Award,Global Standard,Innovation Leader
+C1:Personal Skills,C1-1:Planning and time management,0.5,0.24,0.4,0.78,0.15,0.83,0.73,0.38,0.66,0.7,0.7,0.88,0.61,0.87,1.04,1.04,0.68,1,0,0,0,0,0,0,0
+C1:Personal Skills,C1-2 (U-3):Critical thinking,0.49,0.76,0.69,0.22,0.59,0.22,0.41,0.85,0.71,0.13,0.84,1.14,0.63,0.95,1.19,1.17,0.67,0.94,0,0,0,0,0,0,0
+C1:Personal Skills,C1-3 (A-9):Capacity to adapt to new situations,0.55,0.26,0.22,0.31,0.62,0.53,0.23,0.12,0.7,0.44,0.62,0.79,0.54,0.79,1.02,1.01,0.77,1.08,0,0,0,0,0,0,0
+C1:Personal Skills,C1-4:Capacity for generating new ideas (creativity),0.17,0.3,0.11,0.37,0.47,0.11,0.67,0.44,0.67,0.35,0.37,0.71,0.48,0.94,1.12,1.01,0.82,0.84,0,0,0,0,0,0,0
+C1:Personal Skills,C1-5:Problem-solving,0.83,0.3,0.7,0.84,0.25,0.15,0.75,0.33,0.2,0.51,0.24,1.03,0.65,0.88,1.16,1,1,1.05,0,0,0,0,0,0,0
+C1:Personal Skills,C1-6:Decision-making,0.44,0.57,0.13,0.43,0.64,0.69,0.32,0.28,0.88,0.9,0.21,0.82,0.41,0.8,1.01,1.12,0.64,0.94,0,0,0,0,0,0,0
+C1:Personal Skills,C1-7 (A-7):Ability to work independently,0.35,0.45,0.42,0.4,0.68,0.85,0.8,0.16,0.48,0.15,0.75,1.15,0.43,0.76,1.09,1.03,0.61,1.08,0,0,0,0,0,0,0
+C1:Personal Skills,C1-8 (A-9):Initiative and entrepreneurial spirit,0.15,0.1,0.26,0.32,0.77,0.89,0.18,0.25,0.69,0.33,0.38,1.17,0.57,0.97,1.13,1,1.07,0.8,0,0,0,0,0,0,0
+C1:Personal Skills,C1-9:Ability to work under pressure,0.48,0.64,0.6,0.41,0.42,0.73,0.35,0.1,0.34,0.47,0.52,0.7,0.68,0.96,1.04,1.1,1.04,1.04,0,0,0,0,0,0,0
+C1:Personal Skills,C1-10 (U-4):Compliance with ethical behavior,0.41,0.24,0.73,0.6,0.31,0.84,0.62,0.6,0.27,0.83,0.81,0.93,0.47,0.84,1,1.03,1.03,1.1,0,0,0,0,0,0,0
+C2:Social Skills,"C2-1 (U-1,U-2):Oral and written communication in other languages (especially English)",0.74,0.17,0.63,0.35,0.25,0.1,0.52,0.42,0.51,0.16,0.32,1.07,0.54,0.81,1.08,1.05,0.72,0.93,0,0,0,0,0,0,0
+C2:Social Skills,C2-2 (A-7):Teamwork,0.24,0.78,0.42,0.67,0.66,0.3,0.37,0.41,0.12,0.88,0.71,0.83,0.68,0.92,1.02,1.18,0.78,1.08,0,0,0,0,0,0,0
+C2:Social Skills,C2-3:Leadership & Coordination,0.69,0.86,0.34,0.59,0.45,0.82,0.51,0.56,0.15,0.48,0.73,0.72,0.7,0.79,1.09,1.12,0.61,1.02,0,0,0,0,0,0,0
+C2:Social Skills,C2-4:Ability to work in an interdisciplinary team,0.31,0.38,0.66,0.29,0.8,0.8,0.61,0.25,0.27,0.69,0.66,1.1,0.47,0.96,1.09,1.13,0.79,0.95,0,0,0,0,0,0,0
+C2:Social Skills,C2-5 (U-6):Appreciation of diversity and multi-culturality,0.28,0.42,0.8,0.7,0.63,0.24,0.73,0.22,0.28,0.82,0.62,1.13,0.57,0.79,1,1,0.58,0.99,0,0,0,0,0,0,0
+C2:Social Skills,C2-6 (U-1):Communication at all levels and interpersonal skills,0.43,0.36,0.76,0.26,0.16,0.33,0.56,0.17,0.89,0.57,0.21,1.17,0.47,0.96,1.14,1.19,0.97,0.98,0,0,0,0,0,0,0
+C3:Analytical Skills,C3-1:Information management skills (ability to retrieve and analyze information from different sources),0.57,0.59,0.83,0.49,0.84,0.53,0.56,0.89,0.73,0.7,0.3,1.1,0.53,1.2,1.09,1.02,0.96,0.85,0,0,0,0,0,0,0
+C3:Analytical Skills,C3-2 (A-8):Data gathering & interpretation,0.11,0.74,0.65,0.67,0.81,0.28,0.52,0.35,0.78,0.77,0.61,0.9,0.45,1.2,1.07,1.12,0.88,0.89,0,0,0,0,0,0,0
+C3:Analytical Skills,C3-3 (A-2):Testing solutions and new ideas based on previous experiences and gained knowledge,0.59,0.29,0.38,0.41,0.37,0.24,0.74,0.62,0.68,0.85,0.74,1.2,0.4,1.2,1.11,1.04,0.57,1,0,0,0,0,0,0,0
+C3:Analytical Skills,C3-4:Ability to create post-analysis and reviewing what solutions worked to assess and apply new knowledge,0.82,0.36,0.87,0.81,0.81,0.88,0.26,0.43,0.79,0.6,0.84,1.03,0.43,1.2,1.11,1.07,1.06,0.85,0,0,0,0,0,0,0
+C4:Cognitive Skills,C4-1 (A-10):Capacity to learn,0.32,0.88,0.46,0.42,0.83,0.3,0.34,0.73,0.14,0.47,0.5,1.1,0.69,0.94,1.04,1.13,0.53,0.93,0,0,0,0,0,0,0
+C4:Cognitive Skills,C4-2:Ability to multitask,0.69,0.71,0.61,0.11,0.8,0.78,0.18,0.2,0.9,0.9,0.81,1.17,0.49,0.8,1.01,1.02,0.97,0.89,0,0,0,0,0,0,0
+C4:Cognitive Skills,C4-3 (A-3):Capacity to follow specific rules,0.15,0.42,0.41,0.24,0.52,0.46,0.37,0.87,0.28,0.28,0.33,0.85,0.54,0.74,1.19,1.16,1.11,1.04,0,0,0,0,0,0,0
+C4:Cognitive Skills,C4-4 (A-3):Ability to analyze problems and evaluate options,0.36,0.73,0.73,0.14,0.52,0.59,0.56,0.3,0.82,0.69,0.13,1.02,0.56,0.7,1.18,1.09,0.76,0.91,0,0,0,0,0,0,0
+C5:Intellectual Skills,C5-1:Grounding in basic knowledge of the profession in practice,0.61,0.38,0.52,0.54,0.2,0.62,0.79,0.87,0.26,0.68,0.82,0.81,0.62,0.8,1.2,1.16,1.04,0.96,0,0,0,0,0,0,0
+C5:Intellectual Skills,C5-2 (A-5):Research skills,0.11,0.18,0.7,0.29,0.82,0.76,0.13,0.59,0.13,0.68,0.48,1.02,0.55,0.72,1.11,1.05,1.11,1.07,0,0,0,0,0,0,0
+C5:Intellectual Skills,C5-3:Digital competencies and computer skills,0.52,0.7,0.56,0.26,0.11,0.15,0.54,0.38,0.78,0.2,0.24,0.98,0.48,0.8,1.08,1.13,0.86,0.82,0,0,0,0,0,0,0

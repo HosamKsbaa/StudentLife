@@ -1,0 +1,115 @@
+// Course Graph for 211001892
+digraph {
+	ENGL001 [label="Intensive English" color=green]
+	ENGL101 [label="English 101" color=green]
+	ENGL102 [label="English 102" color=red]
+	ENGL201 [label="Scientific Writing" color=red]
+	ENGL202 [label="Communication & Presentation Skills" color=red]
+	HUMA101 [label="Introduction to Logic and Critical Thinking" color=red]
+	HUMA102 [label="Introduction to Ethics" color=green]
+	HUMA103 [label="Selected Topics in Humanities & Arts" color=green]
+	SSCI101 [label="Selected Topics in Egyptian & Arab Heritage" color=red]
+	SSCI102 [label="Selected Topics in World Cultures & Diversity" color=red]
+	SSCI103 [label="Selected Topics in Social Sciences" color=green]
+	PHYS101 [label="Physics I" color=green]
+	MATH100 [label=Mathematics color=green]
+	MATH111 [label="Analytical Geometry & Calculus I" color=green]
+	MATH112 [label="Calculus II" color=green]
+	MATH113 [label="Probability & Statistics" color=green]
+	MATH211 [label="Discrete Mathematics" color=green]
+	MATH221 [label="Linear Algebra" color=green]
+	MATH222 [label="Differential Equations" color=red]
+	CSCI101 [label="Computer & Information Skills" color=green]
+	CSCI111 [label="Structured Programming" color=red]
+	CSCI112 [label="Object Oriented Programming" color=green]
+	ECEN121 [label="Electric and Electronic Circuits" color=green]
+	CSCI122 [label="Introduction to Computer Systems" color=green]
+	CSCI207 [label=Algorithms color=green]
+	CSCI208 [label="Design and Analysis of Algorithms" color=green]
+	CSCI212 [label="Logic Design and Lab" color=green]
+	CSCI217 [label="Advanced Programming" color=green]
+	CSCI305 [label="Database Systems" color=green]
+	CSCI311 [label="Computer Architecture" color=green]
+	CSCI315 [label="Operating Systems" color=red]
+	CSCI410 [label="Introduction to IoT" color=red]
+	CSCI304 [label="System Analysis and Design" color=red]
+	CSCI313 [label="Software Engineering" color=green]
+	CSCI322 [label="Data Science" color=green]
+	CSCI364 [label="Programming Numerical Methods" color=red]
+	CSCI415 [label="Compiler Design and Construction" color=red]
+	AIS201 [label="Artificial Intelligence" color=red]
+	AIS301 [label="Machine Learning" color=red]
+	AIS302 [label="Artificial Neural Networks" color=red]
+	AIS323 [label="Optimization Techniques" color=red]
+	AIS331 [label="Data Mining and Statistical Analytics" color=red]
+	AIS351 [label="Digital Image Processing" color=green]
+	CSCI363 [label="Cloud Computing and Networking" color=red]
+	AIS411 [label="Natural Language Processing" color=red]
+	CSCI461 [label="Big Data Analytics" color=red]
+	AIS412 [label="Deep Learning" color=red]
+	AIS421 [label="NLP Applications" color=red]
+	AIS431 [label="Intelligent Decision Support Systems" color=red]
+	AIS455 [label="Computer Vision" color=red]
+	AIS462 [label="Computational Intelligence" color=red]
+	AIS463 [label="Knowledge Based Systems" color=red]
+	CSCI465 [label="Introduction to Parallel Computing" color=red]
+	CSCI469 [label="Selected Topics in Big Data and Data Science" color=red]
+	AIS477 [label="Selected Topics in Artificial Intelligence" color=red]
+	CSCI478 [label="High Performance computing" color=red]
+	CSCI479 [label="Multimedia systems" color=red]
+	AIS480 [label="Expert Systems" color=red]
+	CSCI481 [label="Real Time Operating Systems" color=red]
+	CSCI482 [label="Information and Cyber Security" color=red]
+	AIS390 [label="Industrial/Research" color=red]
+	AIS490 [label="Industrial/Research Training I" color=red]
+	AIS495 [label="Senior Project I" color=red]
+	AIS496 [label="Senior Project II" color=red]
+	ENGL101 -> ENGL101
+	ENGL101 -> ENGL102
+	ENGL102 -> ENGL201
+	ENGL201 -> ENGL202
+	MATH111 -> PHYS101
+	MATH111 -> MATH112
+	MATH111 -> MATH113
+	MATH111 -> MATH211
+	MATH111 -> MATH221
+	MATH111 -> MATH222
+	CSCI101 -> CSCI111
+	CSCI111 -> CSCI112
+	PHYS101 -> ECEN121
+	CSCI101 -> CSCI122
+	CSCI112 -> CSCI207
+	CSCI207 -> CSCI208
+	ECEN121 -> CSCI212
+	CSCI207 -> CSCI217
+	CSCI217 -> CSCI305
+	CSCI212 -> CSCI311
+	CSCI311 -> CSCI315
+	CSCI315 -> CSCI410
+	CSCI217 -> CSCI304
+	CSCI217 -> CSCI313
+	MATH113 -> CSCI322
+	CSCI112 -> CSCI364
+	CSCI207 -> CSCI415
+	CSCI207 -> AIS201
+	AIS201 -> AIS301
+	AIS301 -> AIS302
+	AIS301 -> AIS323
+	AIS301 -> AIS331
+	CSCI217 -> AIS351
+	CSCI217 -> CSCI363
+	AIS301 -> AIS411
+	CSCI305 -> CSCI461
+	AIS302 -> AIS412
+	AIS411 -> AIS421
+	AIS301 -> AIS431
+	AIS351 -> AIS455
+	CSCI461 -> AIS462
+	AIS301 -> AIS463
+	CSCI363 -> CSCI465
+	AIS301 -> CSCI469
+	AIS301 -> AIS477
+	CSCI217 -> CSCI478
+	AIS301 -> AIS480
+	CSCI315 -> CSCI481
+}

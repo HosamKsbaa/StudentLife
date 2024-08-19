@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="00: default_platform" time="0.000231035">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="01: number_of_commits" time="0.003858715">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="02: python3 -m venv venv" time="2.17508587">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="03: ../../.dev/DevOpsPython/venv/bin/python3 -m pip install -r requirements.txt" time="0.727929563">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="04: ../../.dev/DevOpsPython/venv/bin/python3 versionControler.py NUStudentJourney " time="0.045923808">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="05: fvm flutter packages get" time="2.547421377">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="06: fvm dart run package_rename -p assets/NUStudentJourney/config.yaml" time="2.718059769">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="07: fvm flutter pub run flutter_launcher_icons:main -f assets/NUStudentJourney/config.yaml" time="5.904721958">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="08: fvm dart run flutter_native_splash:create --path=assets/NUStudentJourney/config.yaml" time="6.357623431">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="09: fvm flutter clean" time="1.146454176">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="10: fvm flutter build apk --release --build-number=38" time="86.493022261">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="11: ../../.dev/DevOpsPython/venv/bin/python3 upload_to_drive.py  1UVo-uTBEbhpYQmzRcHcN1mtN6RkiKO4j ../../build/app/outputs/flutter-apk/app-release.apk 38_NUStudentJourney_app.apk" time="110.39711433">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

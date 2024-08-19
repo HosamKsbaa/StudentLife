@@ -1,0 +1,479 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/student/{student_id}/progress": {
+            "get": {
+                "summary": "Get Student Progress",
+                "operationId": "get_student_progress_student__student_id__progress_get",
+                "parameters": [
+                    {
+                        "name": "student_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Student Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/student/{student_id}/progress2": {
+            "get": {
+                "summary": "Get Student Progress2",
+                "operationId": "get_student_progress2_student__student_id__progress2_get",
+                "parameters": [
+                    {
+                        "name": "student_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Student Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RAResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/student/{student_name}": {
+            "get": {
+                "summary": "Read Student",
+                "operationId": "read_student_student__student_name__get",
+                "parameters": [
+                    {
+                        "name": "student_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Student Name"
+                        }
+                    },
+                    {
+                        "name": "benchmarks",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "title": "Benchmarks"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StudentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Category": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "title": "Code"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "title": "Amount"
+                    },
+                    "sub_categories": {
+                        "items": {
+                            "$ref": "#/components/schemas/SubCategory"
+                        },
+                        "type": "array",
+                        "title": "Sub Categories"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "code",
+                    "name",
+                    "amount",
+                    "sub_categories"
+                ],
+                "title": "Category"
+            },
+            "CompetenciesStudent": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "categories": {
+                        "items": {
+                            "$ref": "#/components/schemas/Category"
+                        },
+                        "type": "array",
+                        "title": "Categories"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "categories"
+                ],
+                "title": "CompetenciesStudent"
+            },
+            "CourseInfo": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "title": "Code"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "originalCode": {
+                        "type": "string",
+                        "title": "Originalcode"
+                    },
+                    "credits": {
+                        "type": "integer",
+                        "title": "Credits"
+                    },
+                    "expectedGrade": {
+                        "type": "number",
+                        "title": "Expectedgrade"
+                    },
+                    "category": {
+                        "type": "string",
+                        "title": "Category"
+                    },
+                    "is_available_this_term": {
+                        "type": "boolean",
+                        "title": "Is Available This Term"
+                    },
+                    "typical_year": {
+                        "type": "integer",
+                        "title": "Typical Year"
+                    },
+                    "term": {
+                        "type": "integer",
+                        "title": "Term"
+                    },
+                    "category_progress": {
+                        "type": "string",
+                        "title": "Category Progress"
+                    },
+                    "dependent_courses_count": {
+                        "type": "integer",
+                        "title": "Dependent Courses Count"
+                    },
+                    "dependency_tree": {
+                        "$ref": "#/components/schemas/DependencyTree"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "code",
+                    "name",
+                    "originalCode",
+                    "credits",
+                    "expectedGrade",
+                    "category",
+                    "is_available_this_term",
+                    "typical_year",
+                    "term",
+                    "category_progress",
+                    "dependent_courses_count",
+                    "dependency_tree"
+                ],
+                "title": "CourseInfo"
+            },
+            "DependencyTree": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "title": "Code"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "typical_year": {
+                        "type": "integer",
+                        "title": "Typical Year"
+                    },
+                    "term": {
+                        "type": "integer",
+                        "title": "Term"
+                    },
+                    "category": {
+                        "type": "string",
+                        "title": "Category"
+                    },
+                    "credits": {
+                        "type": "integer",
+                        "title": "Credits"
+                    },
+                    "dependencies": {
+                        "items": {
+                            "$ref": "#/components/schemas/DependencyTree"
+                        },
+                        "type": "array",
+                        "title": "Dependencies",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "code",
+                    "name",
+                    "typical_year",
+                    "term",
+                    "category",
+                    "credits"
+                ],
+                "title": "DependencyTree"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "IneligibleCourse": {
+                "properties": {
+                    "course": {
+                        "$ref": "#/components/schemas/CourseInfo"
+                    },
+                    "reasons": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Reasons"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "course",
+                    "reasons"
+                ],
+                "title": "IneligibleCourse"
+            },
+            "RAResponse": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "student_data": {
+                        "$ref": "#/components/schemas/StudentData"
+                    },
+                    "graph_output": {
+                        "type": "string",
+                        "title": "Graph Output"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "student_data",
+                    "graph_output"
+                ],
+                "title": "RAResponse"
+            },
+            "StudentData": {
+                "properties": {
+                    "eligible_courses": {
+                        "additionalProperties": {
+                            "items": {
+                                "$ref": "#/components/schemas/CourseInfo"
+                            },
+                            "type": "array"
+                        },
+                        "type": "object",
+                        "title": "Eligible Courses"
+                    },
+                    "ineligible_courses": {
+                        "additionalProperties": {
+                            "items": {
+                                "$ref": "#/components/schemas/IneligibleCourse"
+                            },
+                            "type": "array"
+                        },
+                        "type": "object",
+                        "title": "Ineligible Courses"
+                    },
+                    "category_progress": {
+                        "additionalProperties": {
+                            "additionalProperties": {
+                                "type": "integer"
+                            },
+                            "type": "object"
+                        },
+                        "type": "object",
+                        "title": "Category Progress"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "eligible_courses",
+                    "ineligible_courses",
+                    "category_progress"
+                ],
+                "title": "StudentData"
+            },
+            "StudentResponse": {
+                "properties": {
+                    "student": {
+                        "$ref": "#/components/schemas/CompetenciesStudent"
+                    },
+                    "comparison_list": {
+                        "items": {
+                            "$ref": "#/components/schemas/CompetenciesStudent"
+                        },
+                        "type": "array",
+                        "title": "Comparison List"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "student",
+                    "comparison_list"
+                ],
+                "title": "StudentResponse"
+            },
+            "SubCategory": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "title": "Code"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "title": "Amount"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "code",
+                    "name",
+                    "amount"
+                ],
+                "title": "SubCategory"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}

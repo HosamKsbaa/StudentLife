@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  swagger_ui:
+    image: swaggerapi/swagger-ui
+    container_name: swagger_ui
+    ports:
+      - "81:8080"
+    environment:
+      - SWAGGER_JSON=/foo/openapi.json
+    volumes:
+      - /home/mr-h/Documents/projects/freelancing/basher/GoldFinal/accountgoldCICD/.dev/Api:/foo

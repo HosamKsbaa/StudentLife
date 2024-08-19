@@ -1,0 +1,21 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, unused_import
+
+// Clients
+export 'client/client_client.dart';
+// Data classes
+export 'models/category.dart';
+export 'models/competencies_student.dart';
+export 'models/course_info.dart';
+export 'models/dependency_tree.dart';
+export 'models/http_validation_error.dart';
+export 'models/ineligible_course.dart';
+export 'models/ra_response.dart';
+export 'models/student_data.dart';
+export 'models/student_response.dart';
+export 'models/sub_category.dart';
+export 'models/validation_error.dart';
+// Root client
+export 'rest_client.dart';
+

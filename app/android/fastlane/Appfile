@@ -1,0 +1,2 @@
+json_key_file("../.dev/DevOpsPython/pc-api-7342462637442119661-618-d13bd690cba4.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("com.shanqiti") # e.g. com.krausefx.app
