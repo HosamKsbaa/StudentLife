@@ -14,6 +14,7 @@ from fastapi import FastAPI, HTTPException, Query
 
 from CompetenciesLogic.CompetenciesApi import  create_student, load_student_data
 from CompetenciesLogic.models import CompetenciesStudent, StudentResponse
+from Modules.StudentData import HDStudent, parse_data_from_csv
 from classes import *
 
 
@@ -313,6 +314,32 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# Load the student data from the CSV
+students_data2: List[HDStudent] = parse_data_from_csv("data/Student Grade/CombinedActiveStudents2.csv", valid_subtypes=["LECT"])
+students_data2.sort(key=lambda student: student.people_id)
+
+# FastAPI app definition
+
+def binary_search(data, student_id):
+    low, high = 0, len(data) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if data[mid].people_id == student_id:
+            return data[mid]
+        elif data[mid].people_id < student_id:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return None
+
+@app.get("/student/{student_id}/history", response_model=HDStudent)
+async def get_student(student_id: int):
+    student = binary_search(students_data2, student_id)
+    if student is None:
+        raise HTTPException(status_code=404, detail="Student not found")
+    return student
 
 
 @app.get("/student/{student_id}/progress", response_class=PlainTextResponse)

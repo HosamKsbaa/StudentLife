@@ -1,168 +1,157 @@
-from typing import List, Dict
+import random
+from typing import Dict, List, Optional, Union
 from pydantic import BaseModel
-import pandas as pd
+import csv
+import json
+import os
+import requests
 from fastapi import FastAPI, HTTPException
-from enum import Enum
+from fastapi.responses import PlainTextResponse
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
+from fastapi import FastAPI, HTTPException, Query
 
-# Grade to GPA mapping
-grade_to_gpa = {
-    "A+": 4.00, "A": 4.00, "A-": 3.70,
-    "B+": 3.30, "B": 3.00, "B-": 2.70,
-    "C+": 2.30, "C": 2.00, "C-": 1.70,
-    "D+": 1.30, "D": 1.00, "F": 0.00
-}
 
-# Define the enum for student levels
-class StudentLevel(str, Enum):
-    FRESHMAN = "Freshman"
-    SOPHOMORE = "Sophomore"
-    JUNIOR = "Junior"
-    SENIOR = "Senior"
+from CompetenciesLogic.CompetenciesApi import  create_student, load_student_data
+from CompetenciesLogic.models import CompetenciesStudent, StudentResponse
 
-# Define the classes with the "HD" prefix
-class HDCourse(BaseModel):
-    course_id: str
-    course_name: str
-    course_section: int
-    credit: int
-    final_grade: str = "N/A"  # Default value for final_grade
-    gpa: float = 0.00  # Calculated GPA for the course
+class Category(BaseModel):
+    name: str
+    required_credits: int
+    sub_of: Optional[str]
 
-    def calculate_gpa(self):
-        if self.final_grade in grade_to_gpa:
-            self.gpa = grade_to_gpa[self.final_grade] * self.credit
+class Reason(BaseModel):
+    check_type: str
+    pass_or_fail: bool
+    state_description: str
+    reference_to_prerequisite: Optional['Prerequisite'] = None
 
-class HDTerm(BaseModel):
-    term_name: str
-    courses: List[HDCourse] = []
-    term_gpa: float = 0.00  # Calculated GPA for the term
+class Prerequisite(BaseModel):
+    course: Optional['Course'] = None
 
-    def calculate_gpa(self):
-        total_credits = sum(course.credit for course in self.courses)
-        total_gpa_points = sum(course.gpa for course in self.courses)
-        if total_credits > 0:
-            self.term_gpa = total_gpa_points / total_credits
-
-class HDYear(BaseModel):
-    year: int
-    terms: List[HDTerm] = []
-    year_gpa: float = 0.00  # Calculated GPA for the year
-
-    def calculate_gpa(self):
-        total_credits = sum(course.credit for term in self.terms for course in term.courses)
-        total_gpa_points = sum(course.gpa for term in self.terms for course in term.courses)
-        if total_credits > 0:
-            self.year_gpa = total_gpa_points / total_credits
-
-class HDStudent(BaseModel):
-    people_id: int
-    program: str
-    degree: str
-    curriculum: str
-    college: str
-    department: str
-    years: List[HDYear] = []
-    total_gpa: float = 0.00  # Calculated total GPA for the student
-    total_credits: int = 0
-    level: StudentLevel = StudentLevel.FRESHMAN
-
-    def calculate_gpa(self):
-        total_credits = 0
-        total_gpa_points = 0.0
-
-        for year in self.years:
-            year.calculate_gpa()
-            for term in year.terms:
-                term.calculate_gpa()
-                for course in term.courses:
-                    course.calculate_gpa()
-
-            total_credits += sum(course.credit for term in year.terms for course in term.courses)
-            total_gpa_points += sum(course.gpa for term in year.terms for course in term.courses)
-
-        if total_credits > 0:
-            self.total_gpa = total_gpa_points / total_credits
-            self.total_credits = total_credits
-            self.level = self.determine_student_level()
-
-    def determine_student_level(self):
-        if self.total_credits >= 96:
-            return StudentLevel.SENIOR
-        elif self.total_credits >= 63:
-            return StudentLevel.JUNIOR
-        elif self.total_credits >= 28:
-            return StudentLevel.SOPHOMORE
+    def pass_check(self, student: 'Student') -> Reason:
+        if self.course:
+            if self.course in student.courses_taken:
+                return Reason(
+                    check_type="PrerequisiteCheck",
+                    pass_or_fail=True,
+                    state_description=f"Student has passed the prerequisite course: {self.course.name}",
+                    reference_to_prerequisite=self
+                )
+            else:
+                return Reason(
+                    check_type="PrerequisiteCheck",
+                    pass_or_fail=False,
+                    state_description=f"Student has not taken or not passed the prerequisite course: {self.course.code} {self.course.name}",
+                    reference_to_prerequisite=self
+                )
         else:
-            return StudentLevel.FRESHMAN
-
-# Function to parse data from the CSV
-def parse_data_from_csv(file_path: str, valid_subtypes: List[str]) -> List[HDStudent]:
-    data = pd.read_csv(file_path)
-    students = {}
-
-    for _, entry in data.iterrows():
-        if entry['Course_Sub_Type'] not in valid_subtypes:
-            continue
-
-        people_id = entry['PEOPLE_ID']
-        if people_id not in students:
-            students[people_id] = HDStudent(
-                people_id=people_id,
-                program=entry['Program'],
-                degree=entry['degree'],
-                curriculum=entry['curriculum'],
-                college=entry['college'],
-                department=entry['department'],
-                years=[]
+            return Reason(
+                check_type="PrerequisiteCheck",
+                pass_or_fail=False,
+                state_description="Prerequisite course information is missing",
+                reference_to_prerequisite=self
             )
 
-        year = next((y for y in students[people_id].years if y.year == entry['Year']), None)
-        if not year:
-            year = HDYear(year=entry['Year'], terms=[])
-            students[people_id].years.append(year)
+class CoursePreqest(Prerequisite):
+    course: 'Course'
 
-        term = next((t for t in year.terms if t.term_name == entry['Term']), None)
-        if not term:
-            term = HDTerm(term_name=entry['Term'], courses=[])
-            year.terms.append(term)
+    def pass_check(self, student: 'Student') -> Reason:
+        if not self.course:
+            return Reason(
+                check_type="CoursePrerequisiteCheck",
+                pass_or_fail=False,
+                state_description="Prerequisite course information is missing",
+                reference_to_prerequisite=self
+            )
 
-        final_grade = entry['FINAL_GRADE'] if pd.notna(entry['FINAL_GRADE']) else "N/A"
+        for prereq in self.course.prerequisites:
+            if prereq.course and not student.has_passed_course(prereq.course):
+                return Reason(
+                    check_type="CoursePrerequisiteCheck",
+                    pass_or_fail=False,
+                    state_description=f"Student has not taken or not passed the prerequisite course: {prereq.course.code} {prereq.course.name}",
+                    reference_to_prerequisite=prereq
+                )
 
-        try:
-            course_section = int(entry['Course_Section'])
-        except ValueError:
-            print(f"Skipping course with invalid course_section: {entry['Course_Section']}")
-            continue
-
-        course = HDCourse(
-            course_id=entry['Course_ID'],
-            course_name=entry['Course_Sub_Type'],
-            course_section=course_section,
-            credit=entry['CREDIT'],
-            final_grade=final_grade
+        return Reason(
+            check_type="CoursePrerequisiteCheck",
+            pass_or_fail=True,
+            state_description="Student has passed all prerequisite courses",
+            reference_to_prerequisite=self
         )
-        term.courses.append(course)
 
-    # Calculate GPAs and student levels
-    for student in students.values():
-        student.calculate_gpa()
+class Other(Prerequisite):
+    description: str
 
-    return list(students.values())
+class Course(BaseModel):
+    code: str
+    originalCode: str
+    name: str
+    category: Category
+    prerequisites: List[Union[CoursePreqest, Other]] = []
+    is_available_this_term: bool
+    credits: int
+    typical_year: int
+    term: int
+    for_prereqs: List['Course'] = []
 
-# Load the student data from the CSV
-students_data = parse_data_from_csv("data/Student Grade/CombinedActiveStudents2.csv", valid_subtypes=["LECT"])
+    def serialize_for_json(self):
+        return {
+            "code": self.code,
+            "name": self.name,
+            "originalCode": self.originalCode,
+            'credits': self.credits,
+            "category": self.category.name if self.category else None,
+            "is_available_this_term": self.is_available_this_term,
+            "typical_year": self.typical_year,
+            "term": self.term,
+        }
 
-# FastAPI app definition
-app = FastAPI()
+class Student(BaseModel):
+    id: str
+    courses_taken: List[Course] = []
 
-@app.get("/student/{student_id}", response_model=HDStudent)
-async def get_student(student_id: int):
-    student = next((s for s in students_data if s.people_id == student_id), None)
-    if student is None:
-        raise HTTPException(status_code=404, detail="Student not found")
-    return student
+    def get_current_credit(self) -> int:
+        return sum(course.category.required_credits for course in self.courses_taken)
 
-# Run the FastAPI app
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    def has_passed_course(self, course: Course) -> bool:
+        return course in self.courses_taken
+
+class DependencyTree(BaseModel):
+    code: str
+    name: str
+    typical_year: int
+    term: int
+    category: str
+    credits: int
+    dependencies: List['DependencyTree'] = []
+
+class CourseInfo(BaseModel):
+    code: str
+    name: str
+    originalCode: str
+    credits: int
+    expectedGrade :float
+    category: str
+    is_available_this_term: bool
+    typical_year: int
+    term: int
+    category_progress: str
+    dependent_courses_count: int
+    dependency_tree: DependencyTree
+
+class IneligibleCourse(BaseModel):
+    course: CourseInfo
+    reasons: List[str]
+
+
+class StudentData(BaseModel):
+    eligible_courses: Dict[str, List[CourseInfo]]
+    ineligible_courses: Dict[str, List[IneligibleCourse]]
+    category_progress: Dict[str, Dict[str, int]]
+
+class RAResponse(BaseModel):
+    id: str
+    student_data: StudentData
+    graph_output: str
