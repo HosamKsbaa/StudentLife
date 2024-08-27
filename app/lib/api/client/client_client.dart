@@ -5,6 +5,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../models/hd_student.dart';
 import '../models/ra_response.dart';
 import '../models/student_response.dart';
 
@@ -13,6 +14,13 @@ part 'client_client.g.dart';
 @RestApi()
 abstract class ClientClient {
   factory ClientClient(Dio dio, {String? baseUrl}) = _ClientClient;
+
+  /// Get Student
+  @GET('/student/{student_id}/history')
+  Future<HttpResponse<HDStudent>> getStudentStudentStudentIdHistoryGet({
+    @Path('student_id') required int studentId,
+    @Extras() Map<String, dynamic>? extras,
+  });
 
   /// Get Student Progress
   @GET('/student/{student_id}/progress')

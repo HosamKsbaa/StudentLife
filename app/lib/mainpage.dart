@@ -4,6 +4,7 @@ import 'package:nu_ra_stu_jur/pages/CoursesTree.dart';
 import 'package:nu_ra_stu_jur/pages/EligibleCoursesPage.dart';
 import 'package:nu_ra_stu_jur/pages/IneligibleCoursesPage.dart';
 import 'package:nu_ra_stu_jur/pages/Notifications.dart';
+import 'package:nu_ra_stu_jur/pages/StudentHistory/inPage.dart';
 import 'package:nu_ra_stu_jur/pages/competenciesData.dart';
 import 'package:nu_ra_stu_jur/pages/drawer.dart';
 import 'package:nu_ra_stu_jur/pages/gptchat.dart';
@@ -63,6 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     "Welcome to Course Navigator! This app helps you manage your course selections by showing you eligible and ineligible courses based on your current progress. Track your category credits and plan your academic journey efficiently.",
                     style: TextStyle(fontSize: 16, color: Colors.black54),
                   ),
+                ),
+                _buildSectionCard(
+                  context,
+                  "History",
+                  "View the courses you are eligible to take",
+                  Icons.history,
+                  StudentInputPage(),
                 ),
                 _buildSectionCard(
                   context,

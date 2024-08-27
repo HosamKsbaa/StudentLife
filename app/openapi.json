@@ -5,6 +5,45 @@
         "version": "0.1.0"
     },
     "paths": {
+        "/student/{student_id}/history": {
+            "get": {
+                "summary": "Get Student",
+                "operationId": "get_student_student__student_id__history_get",
+                "parameters": [
+                    {
+                        "name": "student_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Student Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HDStudent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/student/{student_id}/progress": {
             "get": {
                 "summary": "Get Student Progress",
@@ -302,6 +341,170 @@
                 ],
                 "title": "DependencyTree"
             },
+            "HDCourse": {
+                "properties": {
+                    "course_id": {
+                        "type": "string",
+                        "title": "Course Id"
+                    },
+                    "course_name": {
+                        "type": "string",
+                        "title": "Course Name"
+                    },
+                    "course_section": {
+                        "type": "integer",
+                        "title": "Course Section"
+                    },
+                    "credit": {
+                        "type": "integer",
+                        "title": "Credit"
+                    },
+                    "final_grade": {
+                        "type": "string",
+                        "title": "Final Grade",
+                        "default": "N/A"
+                    },
+                    "gpa": {
+                        "type": "number",
+                        "title": "Gpa",
+                        "default": 0.0
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "course_id",
+                    "course_name",
+                    "course_section",
+                    "credit"
+                ],
+                "title": "HDCourse"
+            },
+            "HDStudent": {
+                "properties": {
+                    "people_id": {
+                        "type": "integer",
+                        "title": "People Id"
+                    },
+                    "program": {
+                        "type": "string",
+                        "title": "Program"
+                    },
+                    "degree": {
+                        "type": "string",
+                        "title": "Degree"
+                    },
+                    "curriculum": {
+                        "type": "string",
+                        "title": "Curriculum"
+                    },
+                    "college": {
+                        "type": "string",
+                        "title": "College"
+                    },
+                    "department": {
+                        "type": "string",
+                        "title": "Department"
+                    },
+                    "years": {
+                        "items": {
+                            "$ref": "#/components/schemas/HDYear"
+                        },
+                        "type": "array",
+                        "title": "Years",
+                        "default": []
+                    },
+                    "total_gpa": {
+                        "type": "number",
+                        "title": "Total Gpa",
+                        "default": 0.0
+                    },
+                    "total_credits": {
+                        "type": "integer",
+                        "title": "Total Credits",
+                        "default": 0
+                    },
+                    "level": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/StudentLevel"
+                            }
+                        ],
+                        "default": "Freshman"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "people_id",
+                    "program",
+                    "degree",
+                    "curriculum",
+                    "college",
+                    "department"
+                ],
+                "title": "HDStudent"
+            },
+            "HDTerm": {
+                "properties": {
+                    "term_name": {
+                        "type": "string",
+                        "title": "Term Name"
+                    },
+                    "courses": {
+                        "items": {
+                            "$ref": "#/components/schemas/HDCourse"
+                        },
+                        "type": "array",
+                        "title": "Courses",
+                        "default": []
+                    },
+                    "term_gpa": {
+                        "type": "number",
+                        "title": "Term Gpa",
+                        "default": 0.0
+                    },
+                    "total_credits": {
+                        "type": "integer",
+                        "title": "Total Credits",
+                        "default": 0
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "term_name"
+                ],
+                "title": "HDTerm"
+            },
+            "HDYear": {
+                "properties": {
+                    "year": {
+                        "type": "integer",
+                        "title": "Year"
+                    },
+                    "terms": {
+                        "items": {
+                            "$ref": "#/components/schemas/HDTerm"
+                        },
+                        "type": "array",
+                        "title": "Terms",
+                        "default": []
+                    },
+                    "year_gpa": {
+                        "type": "number",
+                        "title": "Year Gpa",
+                        "default": 0.0
+                    },
+                    "total_credits": {
+                        "type": "integer",
+                        "title": "Total Credits",
+                        "default": 0
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "year"
+                ],
+                "title": "HDYear"
+            },
             "HTTPValidationError": {
                 "properties": {
                     "detail": {
@@ -397,6 +600,16 @@
                     "category_progress"
                 ],
                 "title": "StudentData"
+            },
+            "StudentLevel": {
+                "type": "string",
+                "enum": [
+                    "Freshman",
+                    "Sophomore",
+                    "Junior",
+                    "Senior"
+                ],
+                "title": "StudentLevel"
             },
             "StudentResponse": {
                 "properties": {
