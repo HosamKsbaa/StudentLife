@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           NavbarItem(text: 'Home', icon: Icons.home, widget: Text("Home")),
           NavbarItem(text: 'Search', icon: Icons.search, widget: Text("Search")),
         ],
-        initalIndex: Center(child: Text('Content goes here')),
+        initialIndex: 0,
       ),
     );
   }

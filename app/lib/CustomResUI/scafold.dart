@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../pages/drawer.dart';
+
 class ResponsiveScaffold extends StatefulWidget {
   final List<DrawerItem> drawerItems;
   final List<NavbarItem> navbarItems;
-  final int initalIndex;
+  final int initialIndex;
 
   ResponsiveScaffold({
     required this.drawerItems,
     required this.navbarItems,
-    required this.initalIndex,
+    required this.initialIndex,
   });
 
   @override
@@ -16,6 +18,14 @@ class ResponsiveScaffold extends StatefulWidget {
 }
 
 class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex;
+  }
+
   // Utility function to return widget based on screen size
   Widget? _buildResponsiveWidget({
     required Widget? smallScreenWidget,
@@ -34,31 +44,36 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
         largeScreenWidget: null,
       ),
       body: Row(
-
         children: [
           _buildResponsiveWidget(
-            smallScreenWidget: null,
-            largeScreenWidget: _buildDrawerAsPartOfScreen(),
-          ) ?? SizedBox.shrink(),
-
-          Expanded(child: widget.initalIndex),
+                smallScreenWidget: null,
+                largeScreenWidget: Directionality(textDirection: TextDirection.rtl, child: _buildDrawerAsPartOfScreen()),
+              ) ??
+              SizedBox.shrink(),
+          Expanded(
+            child: widget.navbarItems[_currentIndex].widget,
+          ),
           _buildResponsiveWidget(
-            smallScreenWidget: null,
-            largeScreenWidget: _buildNavigationRail(),
-          ) ?? SizedBox.shrink(),
+                smallScreenWidget: null,
+                largeScreenWidget: _buildNavigationRail(),
+              ) ??
+              SizedBox.shrink(),
         ].reversed.toList(),
       ),
       bottomNavigationBar: _buildResponsiveWidget(
         smallScreenWidget: BottomNavigationBar(
+          currentIndex: _currentIndex,
           items: widget.navbarItems
               .map((item) => BottomNavigationBarItem(
-            icon: Icon(item.icon),
-            label: item.text,
-          ))
+                    icon: Icon(item.icon),
+                    label: item.text,
+                  ))
               .toList(),
           onTap: (index) {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.navbarItems[index].widget));
-            // widget.navbarItems[index].widget();
+            setState(() {
+              _currentIndex = index;
+            });
+            // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.navbarItems[index].widget));
           },
         ),
         largeScreenWidget: null,
@@ -68,39 +83,43 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
 
   Widget _buildNavigationRail() {
     return NavigationRail(
-      selectedIndex: 0,
+      selectedIndex: _currentIndex,
       onDestinationSelected: (index) {
-        // Handle item selection
+        setState(() {
+          _currentIndex = index;
+        });
+        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.navbarItems[index].widget));
       },
       labelType: NavigationRailLabelType.all,
       destinations: widget.navbarItems
           .map((item) => NavigationRailDestination(
-        icon: Icon(item.icon),
-        label: Text(item.text),
-      ))
+                icon: Icon(item.icon),
+                label: Text(item.text),
+              ))
           .toList(),
     );
   }
 
   Widget _buildDrawer(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: widget.drawerItems
-            .map((item) => ListTile(
-          title: Text(item.text),
-          onTap: () {
-            Navigator.pop(context);
-            item.onPressed();
-          },
-        ))
-            .toList(),
-      ),
-    );
+    return const HDMDrawer();
+    // return Drawer(
+    //   child: ListView(
+    //     children: widget.drawerItems
+    //         .map((item) => ListTile(
+    //       title: Text(item.text),
+    //       onTap: () {
+    //         Navigator.pop(context);
+    //         item.onPressed();
+    //       },
+    //     ))
+    //         .toList(),
+    //   ),
+    // );
   }
 
   Widget _buildDrawerAsPartOfScreen() {
     return Container(
-      width: 250, // Fixed width for the drawer as part of the screen
+      // width: 250, // Fixed width for the drawer as part of the screen
       color: Theme.of(context).drawerTheme.backgroundColor ?? Colors.white,
       child: _buildDrawer(context),
     );

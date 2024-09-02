@@ -44,6 +44,7 @@ class HDMDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Drawer(
+        // width: MediaQuery.of(context).size.width * .4,
         child: Container(
           color: Colors.white,
           child: Column(
