@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import '../pages/drawer.dart';
 
 class ResponsiveScaffold extends StatefulWidget {
-  final List<DrawerItem> drawerItems;
+  // final List<DrawerItem> drawerItems;
   final List<NavbarItem> navbarItems;
   final int initialIndex;
 
   ResponsiveScaffold({
-    required this.drawerItems,
+    // required this.drawerItems,
     required this.navbarItems,
     required this.initialIndex,
   });

@@ -8,6 +8,7 @@ import 'package:nu_ra_stu_jur/pages/StudentHistory/inPage.dart';
 import 'package:nu_ra_stu_jur/pages/competenciesData.dart';
 import 'package:nu_ra_stu_jur/pages/drawer.dart';
 import 'package:nu_ra_stu_jur/pages/gptchat.dart';
+import 'CustomResUI/scafold.dart';
 import 'api/models/course_info.dart';
 import 'api/models/ineligible_course.dart';
 import 'api/models/ra_response.dart';
@@ -28,6 +29,24 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    return ApiSinglePage<RAResponse>(
+      requestFunction: () => restClient.client.getStudentProgress2StudentStudentIdProgress2Get(studentId: StuId),
+      child: (context, RAResponse data) {
+        return ResponsiveScaffold(
+//         // drawerItems: [
+//         //   DrawerItem(text: 'Item 1', onPressed: () => print('Item 1 tapped')),
+//         //   DrawerItem(text: 'Item 2', onPressed: () => print('Item 2 tapped')),
+//         // ],
+          navbarItems: [
+            NavbarItem(text: 'Home', icon: Icons.home, widget: Text("Home")),
+            NavbarItem(text: 'Search', icon: Icons.search, widget: Text("Search")),
+          ],
+          initialIndex: 0,
+        );
+      },
+      httpRequestsStates: HDMHttpRequestsStates(),
+    );
+
     return Scaffold(
       drawer: const HDMDrawer(), // Optional: Add drawer for navigation
       appBar: AppBar(
