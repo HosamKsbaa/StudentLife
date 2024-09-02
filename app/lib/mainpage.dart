@@ -6,15 +6,11 @@ import 'package:nu_ra_stu_jur/pages/IneligibleCoursesPage.dart';
 import 'package:nu_ra_stu_jur/pages/Notifications.dart';
 import 'package:nu_ra_stu_jur/pages/StudentHistory/inPage.dart';
 import 'package:nu_ra_stu_jur/pages/competenciesData.dart';
-import 'package:nu_ra_stu_jur/pages/drawer.dart';
 import 'package:nu_ra_stu_jur/pages/gptchat.dart';
 import 'CustomResUI/scafold.dart';
-import 'api/models/course_info.dart';
-import 'api/models/ineligible_course.dart';
 import 'api/models/ra_response.dart';
 import 'hosamAddition/HttpReqstats/Loaders/SinglePage.dart';
 import 'hosamAddition/HttpReqstats/httpStats.dart';
-
 import 'main.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -30,135 +26,64 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return ApiSinglePage<RAResponse>(
-      requestFunction: () => restClient.client.getStudentProgress2StudentStudentIdProgress2Get(studentId: StuId),
+      requestFunction: () => restClient.client.getStudentProgress2StudentStudentIdProgress2Get(studentId: widget.studentId),
       child: (context, RAResponse data) {
         return ResponsiveScaffold(
-//         // drawerItems: [
-//         //   DrawerItem(text: 'Item 1', onPressed: () => print('Item 1 tapped')),
-//         //   DrawerItem(text: 'Item 2', onPressed: () => print('Item 2 tapped')),
-//         // ],
+
           navbarItems: [
-            NavbarItem(text: 'Home', icon: Icons.home, widget: Text("Home")),
-            NavbarItem(text: 'Search', icon: Icons.search, widget: Text("Search")),
+            NavbarItem(text: 'Home', icon: Icons.home, widget: MainPage()),
+            NavbarItem(text: 'History', icon: Icons.history, widget: StudentInputPage()),
+            NavbarItem(text: 'Eligible Courses', icon: Icons.check_circle, widget: EligibleCoursesPage(data: data)),
+            NavbarItem(text: 'Ineligible Courses', icon: Icons.cancel, widget: IneligibleCoursesPage(data: data)),
+            NavbarItem(text: 'Category Progress', icon: Icons.assessment, widget: CategoryProgressPage(data: data)),
+            NavbarItem(text: 'Courses Tree', icon: Icons.account_tree, widget: ZoomableImagePage()),
+            NavbarItem(text: 'Chat with EduBot', icon: Icons.chat, widget: const GptPage()),
+            NavbarItem(text: 'Competencies', icon: Icons.assessment_outlined, widget: RadarChartSample1(studentId: widget.studentId)),
           ],
           initialIndex: 0,
         );
       },
       httpRequestsStates: HDMHttpRequestsStates(),
     );
-
-    return Scaffold(
-      drawer: const HDMDrawer(), // Optional: Add drawer for navigation
-      appBar: AppBar(
-        actions: [
-          const NotificationICon(),
-        ],
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(widget.title, style: const TextStyle(fontWeight: FontWeight.bold)),
-      ),
-      body: ApiSinglePage<RAResponse>(
-        requestFunction: () => restClient.client.getStudentProgress2StudentStudentIdProgress2Get(studentId: StuId),
-        child: (context, RAResponse data) {
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(25),
-                  child: Center(
-                    child: Text(
-                      "Course Navigator",
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 40, right: 40, bottom: 20),
-                  child: Text(
-                    "Welcome to Course Navigator! This app helps you manage your course selections by showing you eligible and ineligible courses based on your current progress. Track your category credits and plan your academic journey efficiently.",
-                    style: TextStyle(fontSize: 16, color: Colors.black54),
-                  ),
-                ),
-                _buildSectionCard(
-                  context,
-                  "History",
-                  "View the courses you are eligible to take",
-                  Icons.history,
-                  StudentInputPage(),
-                ),
-                _buildSectionCard(
-                  context,
-                  "Eligible Courses",
-                  "View the courses you are eligible to take",
-                  Icons.check_circle,
-                  EligibleCoursesPage(data: data),
-                ),
-                _buildSectionCard(
-                  context,
-                  "Ineligible Courses",
-                  "Check courses that you are currently not eligible for",
-                  Icons.cancel,
-                  IneligibleCoursesPage(data: data),
-                ),
-                _buildSectionCard(
-                  context,
-                  "Category Progress",
-                  "Track your progress across different categories",
-                  Icons.assessment,
-                  CategoryProgressPage(data: data),
-                ),
-                _buildSectionCard(
-                  context,
-                  "Courses Tree",
-                  "Plane ahead and see the courses tree",
-                  Icons.account_tree,
-                  ZoomableImagePage(),
-                ),
-                _buildSectionCard(
-                  context,
-                  "Chat with EduBot",
-                  "Have a chat with our educational chatbot about everything",
-                  Icons.chat,
-                  const GptPage(),
-                ),
-                _buildSectionCard(
-                  context,
-                  "Show Your Competencies",
-                  "Show your competencies",
-                  Icons.assessment_outlined,
-                  RadarChartSample1(
-                    studentId: widget.studentId,
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-        httpRequestsStates: HDMHttpRequestsStates(),
-      ),
-    );
   }
 
-  Widget _buildSectionCard(BuildContext context, String title, String subtitle, IconData icon, Widget page) {
-    return Card(
-      elevation: 4.0,
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
-      child: ListTile(
-        leading: Icon(icon, size: 40, color: Theme.of(context).colorScheme.primary),
-        title: Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        subtitle: Text(subtitle, style: const TextStyle(fontSize: 16)),
-        trailing: Icon(Icons.arrow_forward, size: 30, color: Theme.of(context).colorScheme.primary),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => page),
-          );
-        },
+  void _navigateTo(BuildContext context, Widget page) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
+  }
+}
+
+class MainPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(25),
+            child: Center(
+              child: Text(
+                "Course Navigator",
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 40, right: 40, bottom: 20),
+            child: Text(
+              "Welcome to Course Navigator! This app helps you manage your course selections by showing you eligible and ineligible courses based on your current progress. Track your category credits and plan your academic journey efficiently.",
+              style: TextStyle(fontSize: 16, color: Colors.black54),
+            ),
+          ),
+        ],
       ),
     );
   }
