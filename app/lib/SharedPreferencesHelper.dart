@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesHelper {
   // Base URL and Chat URL keys
-  static String baseUrlKey = "http://localhost:8122";
+  static String baseUrlKey = "http://f315-154-177-227-80.ngrok-free.app:8122";
   // static String baseUrlKey = "http://localhost:8122";
 
   static String chatUrlKey = "http://84.36.10.10:8000/ask2";
