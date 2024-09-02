@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
           DrawerItem(text: 'Item 2', onPressed: () => print('Item 2 tapped')),
         ],
         navbarItems: [
-          NavbarItem(text: 'Home', icon: Icons.home, onPressed: () => print('Home tapped')),
-          NavbarItem(text: 'Search', icon: Icons.search, onPressed: () => print('Search tapped')),
+          NavbarItem(text: 'Home', icon: Icons.home, widget: Text("Home")),
+          NavbarItem(text: 'Search', icon: Icons.search, widget: Text("Search")),
         ],
-        body: Center(child: Text('Content goes here')),
+        initalIndex: Center(child: Text('Content goes here')),
       ),
     );
   }

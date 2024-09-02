@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class ResponsiveScaffold extends StatefulWidget {
   final List<DrawerItem> drawerItems;
   final List<NavbarItem> navbarItems;
-  final Widget body;
+  final int initalIndex;
 
   ResponsiveScaffold({
     required this.drawerItems,
     required this.navbarItems,
-    required this.body,
+    required this.initalIndex,
   });
 
   @override
@@ -41,7 +41,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
             largeScreenWidget: _buildDrawerAsPartOfScreen(),
           ) ?? SizedBox.shrink(),
 
-          Expanded(child: widget.body),
+          Expanded(child: widget.initalIndex),
           _buildResponsiveWidget(
             smallScreenWidget: null,
             largeScreenWidget: _buildNavigationRail(),
@@ -57,7 +57,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
           ))
               .toList(),
           onTap: (index) {
-            widget.navbarItems[index].onPressed();
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.navbarItems[index].widget));
+            // widget.navbarItems[index].widget();
           },
         ),
         largeScreenWidget: null,
@@ -116,11 +117,11 @@ class DrawerItem {
 class NavbarItem {
   final String text;
   final IconData icon;
-  final VoidCallback onPressed;
+  final Widget widget;
 
   NavbarItem({
     required this.text,
     required this.icon,
-    required this.onPressed,
+    required this.widget,
   });
 }
