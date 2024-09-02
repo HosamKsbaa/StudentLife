@@ -21,6 +21,7 @@ const Color BackGround = Color(0xffebebeb); // Light background color
 const Color darkBackgroundColor = Color(0xff121212); // Dark background color
 
 ThemeData lightTheme = ThemeData(
+  backgroundColor: BackGround,
   inputDecorationTheme: InputDecorationTheme(
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
@@ -36,7 +37,7 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   primaryColor: primaryColor,
-  scaffoldBackgroundColor: BackGround,
+  scaffoldBackgroundColor: Colors.white,
   colorScheme: const ColorScheme.light(
     primary: primaryColor,
     secondary: primaryColor,

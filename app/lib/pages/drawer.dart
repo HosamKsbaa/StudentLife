@@ -44,13 +44,23 @@ class HDMDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Drawer(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(0),
+              bottomRight: Radius.circular(0)),
+        ),
+        // shape: null, // Remove any rounding
+
+
         // width: MediaQuery.of(context).size.width * .4,
         child: Container(
-          color: Colors.white,
+          color: Colors.grey[100],
           child: Column(
             children: [
               Expanded(
+
                 child: ListView(
+
                   padding: EdgeInsets.zero,
                   children: <Widget>[
                     Container(
@@ -139,7 +149,7 @@ class HDMDrawer extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                "with your events app",
+                                "with your Course Navigator",
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
@@ -179,8 +189,8 @@ class HDMDrawer extends StatelessWidget {
                     DrawerTileAction(
                       text: "Share App",
                       onPress: () async {
-                        await launchUrl(Uri.parse("https://shanqiti.com/"));
-                        Navigator.pop(context);
+                        await launchUrl(Uri.parse("https://studentlife.pages.dev/"));
+                        // Navigator.pop(context);
                       },
                     ),
                   ],
@@ -202,7 +212,9 @@ class HDMDrawer extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onTap: () async {},
+                  onTap: () async {
+                    Navigator.pop(context);
+                  },
                 ),
               ),
             ],

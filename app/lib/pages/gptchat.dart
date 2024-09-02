@@ -143,25 +143,20 @@ class _GptPageState extends State<GptPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text('GPT Chat'),
-        ),
-        body: Chat(
-          messages: _messages,
-          onSendPressed: _handleSendPressed,
-          user: _user,
-          typingIndicatorOptions: TypingIndicatorOptions(typingUsers: _isTyping ? [_bot] : []),
-          // showUserAvatars: true,
-          showUserNames: true,
-          // avatarBuilder: (types.User user) => Padding(
-          //   padding: const EdgeInsets.all(2.0), // Add padding to the avatar
-          //   child: CircleAvatar(
-          //     // Set the radius to control the size
-          //     backgroundImage: CachedNetworkImageProvider(user.imageUrl ?? '', scale: 10),
-          //   ),
-          // ),
-          timeFormat: DateFormat('h:mm a'), // Customize time format as needed
-        ),
-      );
+  Widget build(BuildContext context) =>Chat(
+    messages: _messages,
+    onSendPressed: _handleSendPressed,
+    user: _user,
+    typingIndicatorOptions: TypingIndicatorOptions(typingUsers: _isTyping ? [_bot] : []),
+    // showUserAvatars: true,
+    showUserNames: true,
+    // avatarBuilder: (types.User user) => Padding(
+    //   padding: const EdgeInsets.all(2.0), // Add padding to the avatar
+    //   child: CircleAvatar(
+    //     // Set the radius to control the size
+    //     backgroundImage: CachedNetworkImageProvider(user.imageUrl ?? '', scale: 10),
+    //   ),
+    // ),
+    timeFormat: DateFormat('h:mm a'), // Customize time format as needed
+  );
 }

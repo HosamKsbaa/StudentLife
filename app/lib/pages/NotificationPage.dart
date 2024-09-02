@@ -14,7 +14,7 @@ class NotificationPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('notification'),
       ),
-      body: Text("No notification "),
+      body: Center(child: Text("No notification ", style: TextStyle(fontSize: 20))),
       // body: ApiInfiniteList<CNotification>(
       //   requestFunction: (pageNumber, pageSize) => restClient.notifications
       //       .getNotificationsNotificationsNotificationsPost(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../pages/NotificationPage.dart';
 import '../pages/drawer.dart';
 
 class ResponsiveScaffold extends StatefulWidget {
@@ -38,7 +39,17 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Responsive Scaffold')),
+      appBar: AppBar(title: Text('Responsive Scaffold'), actions: [
+        IconButton(
+          icon: Icon(Icons.notifications),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NotificationPage()),
+            );
+          },
+        ),
+      ]),
       drawer: _buildResponsiveWidget(
         smallScreenWidget: _buildDrawer(context),
         largeScreenWidget: null,
@@ -51,7 +62,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
               ) ??
               SizedBox.shrink(),
           Expanded(
-            child: widget.navbarItems[_currentIndex].widget,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              child: widget.navbarItems[_currentIndex].widget,
+            ),
           ),
           _buildResponsiveWidget(
                 smallScreenWidget: null,
@@ -83,6 +97,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
 
   Widget _buildNavigationRail() {
     return NavigationRail(
+      backgroundColor: Colors.grey[100],
       selectedIndex: _currentIndex,
       onDestinationSelected: (index) {
         setState(() {

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nu_ra_stu_jur/pages/sucess.dart';
+import 'package:photo_view/photo_view.dart';
 import '../api/models/ra_response.dart';
 import '../api/models/course_info.dart';
+import 'HelperWidgets.dart';
+import 'StudentHistory/StudentDetailsPage.dart';
 import 'competenciesData.dart';
 
 class EligibleCoursesPage extends StatefulWidget {
@@ -210,3 +213,165 @@ class _EligibleCoursesPageState extends State<EligibleCoursesPage> {
     );
   }
 }
+
+class IneligibleCoursesPage extends StatelessWidget {
+  final RAResponse data;
+
+  IneligibleCoursesPage({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Ineligible Courses")),
+      floatingActionButton: FAB(context),
+      body: ListView.builder(
+        itemCount: data.studentData.ineligibleCourses.length,
+        itemBuilder: (context, index) {
+          final category = data.studentData.ineligibleCourses.keys.elementAt(index);
+          final courses = data.studentData.ineligibleCourses[category]!;
+          return IneligibleCourseCategory(category: category, courses: courses);
+        },
+      ),
+    );
+  }
+}
+
+
+
+class ZoomableImagePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Courses Tree'),
+      ),
+      floatingActionButton: FAB(context),
+      body: Center(
+        child: PhotoView(
+          backgroundDecoration: BoxDecoration(color: Colors.white),
+          imageProvider: AssetImage('assets/tree.jpg'),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class StudentInputPage extends StatefulWidget {
+  @override
+  _StudentInputPageState createState() => _StudentInputPageState();
+}
+
+class _StudentInputPageState extends State<StudentInputPage> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Enter Student ID'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                labelText: 'Student ID',
+
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.number,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if (_controller.text.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StudentDetailPage(
+                        studentId: int.parse(_controller.text),
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: Text('Go to Details'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class CoursesOverviewPage extends StatelessWidget {
+  final RAResponse data;
+
+  CoursesOverviewPage({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          _buildCourseButton(
+            context,
+            "Eligible Courses",
+            "View the courses you are eligible to take",
+            Icons.check_circle_outline,
+            EligibleCoursesPage(data: data),
+          ),
+          _buildCourseButton(
+            context,
+            "Ineligible Courses",
+            "Check courses that you are currently not eligible for",
+            Icons.cancel_outlined,
+            IneligibleCoursesPage(data: data),
+          ),
+          _buildCourseButton(
+            context,
+            "Courses Tree",
+            "Plan ahead and see the courses tree",
+            Icons.account_tree_outlined,
+            ZoomableImagePage(),
+          ),
+          _buildCourseButton(
+            context,
+            "History",
+            "View the courses you have taken",
+            Icons.history_outlined,
+            StudentInputPage(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCourseButton(BuildContext context, String title, String subtitle, IconData icon, Widget page) {
+    return Card(
+      elevation: 4.0,
+      margin: const EdgeInsets.symmetric(vertical: 10.0),
+      child: ListTile(
+        leading: Icon(icon, size: 40, color: Theme.of(context).colorScheme.primary),
+        title: Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        subtitle: Text(subtitle, style: const TextStyle(fontSize: 16)),
+        trailing: Icon(Icons.arrow_forward, size: 30, color: Theme.of(context).colorScheme.primary),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => page),
+          );
+        },
+      ),
+    );
+  }
+}
+

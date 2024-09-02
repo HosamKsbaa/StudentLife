@@ -31,13 +31,17 @@ class _MyHomePageState extends State<MyHomePage> {
         return ResponsiveScaffold(
 
           navbarItems: [
-            NavbarItem(text: 'Home', icon: Icons.home, widget: MainPage()),
-            NavbarItem(text: 'History', icon: Icons.history, widget: StudentInputPage()),
-            NavbarItem(text: 'Eligible Courses', icon: Icons.check_circle, widget: EligibleCoursesPage(data: data)),
-            NavbarItem(text: 'Ineligible Courses', icon: Icons.cancel, widget: IneligibleCoursesPage(data: data)),
-            NavbarItem(text: 'Category Progress', icon: Icons.assessment, widget: CategoryProgressPage(data: data)),
-            NavbarItem(text: 'Courses Tree', icon: Icons.account_tree, widget: ZoomableImagePage()),
-            NavbarItem(text: 'Chat with EduBot', icon: Icons.chat, widget: const GptPage()),
+            NavbarItem(text: 'Home', icon: Icons.home_outlined, widget: MainPage()),
+            NavbarItem(
+              text: 'Overview',
+              icon: Icons.school_outlined,
+              widget: CoursesOverviewPage(data: data),
+            ),
+            // NavbarItem(text: 'Eligible Courses', icon: Icons.check_circle_outline, widget: EligibleCoursesPage(data: data)),
+            // NavbarItem(text: 'Ineligible Courses', icon: Icons.cancel_outlined, widget: IneligibleCoursesPage(data: data)),
+            // NavbarItem(text: 'Category Progress', icon: Icons.assessment_outlined, widget: CategoryProgressPage(data: data)),
+            // NavbarItem(text: 'Courses Tree', icon: Icons.account_tree_outlined, widget: ZoomableImagePage()),
+            NavbarItem(text: 'EduBot', icon: Icons.chat_outlined, widget: const GptPage()),
             NavbarItem(text: 'Competencies', icon: Icons.assessment_outlined, widget: RadarChartSample1(studentId: widget.studentId)),
           ],
           initialIndex: 0,

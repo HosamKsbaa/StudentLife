@@ -58,129 +58,114 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Skills Chart'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              setState(() {
-                relativeAngleMode = !relativeAngleMode;
-              });
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          ProfileCard(
-            imageUrl: 'assets/images/profile.png', // Update with the correct image path
-            name: 'Sara Mohamed Ayman',
-            major: 'Mechanical Engineering',
-            faculty: 'Applied Sciences and Engineering',
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_left_rounded, color: Colors.blueAccent),
-                  onPressed: _previousBenchmark, // Navigate to the previous benchmark
-                ),
-                GestureDetector(
-                  onTap: () {
-                    // When the user clicks on the text, open the dropdown menu.
-                    _showDropdown(context);
-                  },
-                  child: Text(
-                    selectedBenchmark,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent,
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_right, color: Colors.blueAccent),
-                  onPressed: _nextBenchmark, // Navigate to the next benchmark
-                ),
-              ],
-            ),
-          ),
-          Row(
+    return  Column(
+      children: [
+        ProfileCard(
+          imageUrl: 'assets/2024-07-30_17-37.png', // Update with the correct image path
+          name: 'Hosam Ksbaa',
+          major: 'Artificial Intelligence',
+          faculty: 'Computer Science and information technology',
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildLegendItem(Colors.blueAccent, "My Current Chart"),
-              _buildLegendItem(Colors.green, selectedBenchmark),
+              IconButton(
+                icon: Icon(Icons.arrow_left_rounded, color: Colors.blueAccent),
+                onPressed: _previousBenchmark, // Navigate to the previous benchmark
+              ),
+              GestureDetector(
+                onTap: () {
+                  // When the user clicks on the text, open the dropdown menu.
+                  _showDropdown(context);
+                },
+                child: Text(
+                  selectedBenchmark,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueAccent,
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.arrow_right, color: Colors.blueAccent),
+                onPressed: _nextBenchmark, // Navigate to the next benchmark
+              ),
             ],
           ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: ApiSinglePage<StudentResponse>(
-              httpRequestsStates: HDMHttpRequestsStates(),
-              requestFunction: () => restClient.client.readStudentStudentStudentNameGet(
-                studentName: StuId,
-                benchmarks: benchmarks,
-              ),
-              child: (context, studentDataFuture) {
-                if (studentDataFuture == null) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildLegendItem(Colors.blueAccent, "My Current Chart"),
+            _buildLegendItem(Colors.green, selectedBenchmark),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Expanded(
+          child: ApiSinglePage<StudentResponse>(
+            httpRequestsStates: HDMHttpRequestsStates(),
+            requestFunction: () => restClient.client.readStudentStudentStudentNameGet(
+              studentName: StuId,
+              benchmarks: benchmarks,
+            ),
+            child: (context, studentDataFuture) {
+              if (studentDataFuture == null) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-                final categories = studentDataFuture.student.categories;
+              final categories = studentDataFuture.student.categories;
 
-                return Center(
-                  child: GestureDetector(
-                    onScaleUpdate: (details) {
-                      setState(() {
-                        scale = details.scale;
-                      });
-                    },
-                    child: Transform.scale(
-                      scale: scale,
-                      child: AspectRatio(
-                        aspectRatio: 1.3,
-                        child: RadarChart(
-                          RadarChartData(
-                            radarShape: RadarShape.polygon, // Use polygonal shape (hexagon)
-                            dataSets: showingDataSets(studentDataFuture, selectedBenchmark), // Pass the selected benchmark
-                            titlePositionPercentageOffset: 0.15, // Adjust position to make room for numbers
-                            titleTextStyle: const TextStyle(color: Colors.black, fontSize: 10), // Small black text
-                            getTitle: (index, angle) {
-                              final usedAngle = relativeAngleMode ? angle + angleValue : angleValue;
-                              String categoryName = categories[index].name;
-                              double currentValue = categories[index].amount.toDouble(); // Multiply by 100
-                              double benchmarkValue = getBenchmarkValue(studentDataFuture, selectedBenchmark, index);
-                              double delta = currentValue - benchmarkValue;
+              return Center(
+                child: GestureDetector(
+                  onScaleUpdate: (details) {
+                    setState(() {
+                      scale = details.scale;
+                    });
+                  },
+                  child: Transform.scale(
+                    scale: scale,
+                    child: AspectRatio(
+                      aspectRatio: 1.3,
+                      child: RadarChart(
+                        RadarChartData(
+                          radarShape: RadarShape.polygon, // Use polygonal shape (hexagon)
+                          dataSets: showingDataSets(studentDataFuture, selectedBenchmark), // Pass the selected benchmark
+                          titlePositionPercentageOffset: 0.15, // Adjust position to make room for numbers
+                          titleTextStyle: const TextStyle(color: Colors.black, fontSize: 10), // Small black text
+                          getTitle: (index, angle) {
+                            final usedAngle = relativeAngleMode ? angle + angleValue : angleValue;
+                            String categoryName = categories[index].name;
+                            double currentValue = categories[index].amount.toDouble(); // Multiply by 100
+                            double benchmarkValue = getBenchmarkValue(studentDataFuture, selectedBenchmark, index);
+                            double delta = currentValue - benchmarkValue;
 
-                              return RadarChartTitle(
-                                text: '$categoryName\n'
-                                    ' ${currentValue.toStringAsFixed(1)} '
-                                    'vs : ${benchmarkValue.toStringAsFixed(1)}\n '
-                                    'Δ: ${delta.toStringAsFixed(1)}%',
-                                angle: 0,
-                              );
-                            },
+                            return RadarChartTitle(
+                              text: '$categoryName\n'
+                                  ' ${currentValue.toStringAsFixed(1)} '
+                                  'vs : ${benchmarkValue.toStringAsFixed(1)}\n '
+                                  'Δ: ${delta.toStringAsFixed(1)}%',
+                              angle: 0,
+                            );
+                          },
 
-                            tickCount: 7, // More ticks for better granularity
-                            ticksTextStyle: const TextStyle(color: Colors.black, fontSize: 6), // Small black text for ticks
-                            tickBorderData: const BorderSide(color: Colors.grey, width: 1), // Custom dashed border
-                            gridBorderData: BorderSide(color: widget.gridColor.withOpacity(0.7), width: .5, style: BorderStyle.solid),
-                          ),
-                          swapAnimationDuration: const Duration(milliseconds: 400),
+                          tickCount: 7, // More ticks for better granularity
+                          ticksTextStyle: const TextStyle(color: Colors.black, fontSize: 6), // Small black text for ticks
+                          tickBorderData: const BorderSide(color: Colors.grey, width: 1), // Custom dashed border
+                          gridBorderData: BorderSide(color: widget.gridColor.withOpacity(0.7), width: .5, style: BorderStyle.solid),
                         ),
+                        swapAnimationDuration: const Duration(milliseconds: 400),
                       ),
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
