@@ -138,7 +138,7 @@ class _UpdateUrlsPageState extends State<UpdateUrlsPage> {
                         builder: (context) => MyHomePage(
                               title: 'Student Life',
                               studentId: _stuIdController.text,
-                            )),
+                            )),//sd
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
