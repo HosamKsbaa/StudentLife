@@ -33,7 +33,23 @@ dependencies:
     sdk: flutter
 
   url_launcher: ^6.2.6
+  ######### Firebase Package #########
 
+  #  firebase_analytics: ^10.10.5
+  #  firebase_app_check: ^0.2.2
+  firebase_auth: ^5.1.0
+  #  firebase_auth_web: ^5.3.0
+  firebase_core: ^3.1.0
+  #  firebase_performance: ^0.9.1
+  #  firebase_messaging: ^14.6.7
+  #  firebase_ui_auth: ^1.7.0
+  firebase_ui_oauth_google: ^1.3.3
+  cloud_firestore: ^5.0.1
+  #  firebase_storage: ^11.2.1
+  firebase_database: ^11.0.1
+  ########################################
+  googleapis: ^12.0.0
+  googleapis_auth: ^1.6.0
   cupertino_icons: ^1.0.2
   flutter_bloc: ^8.1.3
   shared_preferences: ^2.2.2

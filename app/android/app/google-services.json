@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "502219174600",
+    "project_id": "nugard",
+    "storage_bucket": "nugard.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502219174600:android:3da532c4749368fcf7ebfd",
+        "android_client_info": {
+          "package_name": "com.account.NUStudentJourney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502219174600-gi6vmv36cuc0vf9b88jn3u81dosv433r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM2A7xZ37Qoy7y6H63ATXvYjg4ECq6WJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502219174600-gi6vmv36cuc0vf9b88jn3u81dosv433r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "502219174600-rudrg48ab43tldr8u6obejdn39hu1uq3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.nugrad"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502219174600:android:e17af3c21060b075f7ebfd",
+        "android_client_info": {
+          "package_name": "com.example.nugrad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502219174600-gtpct6np3n825cfa00q3p3rn2dd8af44.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nugrad",
+            "certificate_hash": "845d174d866d18a76627d50d3148f82223aef426"
+          }
+        },
+        {
+          "client_id": "502219174600-gi6vmv36cuc0vf9b88jn3u81dosv433r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM2A7xZ37Qoy7y6H63ATXvYjg4ECq6WJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502219174600-gi6vmv36cuc0vf9b88jn3u81dosv433r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "502219174600-rudrg48ab43tldr8u6obejdn39hu1uq3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.nugrad"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

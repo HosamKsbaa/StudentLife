@@ -1,16 +1,19 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nu_ra_stu_jur/api/export.dart';
-import 'package:nu_ra_stu_jur/hosamAddition/HttpReqstats/Loaders/SinglePage.dart';
-import 'Constants.dart';
-import 'CustomResUI/scafold.dart';
+import 'Auth/LocalAuth/FireabaseAuth.dart';
 import 'SharedPreferencesHelper.dart';
 import 'ThemeData.dart';
-import 'hosamAddition/HttpReqstats/httpStats.dart';
+import 'firebase_options.dart';
 import 'mainpage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:flutter/material.dart';
+
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+
+
+
+import 'ThemeData.dart';
 
 late RestClient restClient;
 late SharedPreferencesHelper sharedPreferencesHelper;
@@ -40,8 +43,16 @@ String StuId = "211001892";
 //   }
 // }
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseUIAuth.configureProviders([
+    EmailAuthProvider(),
+
+    // GoogleProvider(clientId: "502219174600-gi6vmv36cuc0vf9b88jn3u81dosv433r.apps.googleusercontent.com"),
+  ]);
   runApp(const MyApp());
 }
 
@@ -177,39 +188,33 @@ class MyApp extends StatelessWidget {
     return FutureBuilder(
       future: _initialize(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: lightTheme,
-            debugShowCheckedModeBanner: false,
-            home: Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
+        return MaterialApp(
+          navigatorKey: GlobalNavigator.navigatorKey, // Attach the
+          title: 'Flutter Demo',
+          theme: lightTheme,
+          debugShowCheckedModeBanner: false,
+          home: Scaffold(
+            body: Center(
+              child: () {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  print("Waiting");
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  print("Error: ${snapshot.error}");
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  print("Loaded");
+                  return AuthStart(
+                    afterLoggedInScreenBuilder: () => UpdateUrlsPage(),
+                    loggedInScreenBuilder: () => UpdateUrlsPage(),
+                  );
+                }
+              }(),
             ),
-          );
-        } else if (snapshot.hasError) {
-          return OverlaySupport.global(
-            child: MaterialApp(
-              title: 'Flutter Demo',
-              theme: lightTheme,
-              debugShowCheckedModeBanner: false,
-              home: Scaffold(
-                body: Center(
-                  child: Text('Error: ${snapshot.error}'),
-                ),
-              ),
-            ),
-          );
-        } else {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: lightTheme,
-            debugShowCheckedModeBanner: false,
-            home: const UpdateUrlsPage(),
-          );
-        }
+          ),
+        );
       },
     );
   }
 }
+

@@ -7,6 +7,7 @@ import 'package:nu_ra_stu_jur/pages/Notifications.dart';
 import 'package:nu_ra_stu_jur/pages/StudentHistory/inPage.dart';
 import 'package:nu_ra_stu_jur/pages/competenciesData.dart';
 import 'package:nu_ra_stu_jur/pages/gptchat.dart';
+import 'package:nu_ra_stu_jur/pages/profile.dart';
 import 'CustomResUI/scafold.dart';
 import 'api/models/ra_response.dart';
 import 'hosamAddition/HttpReqstats/Loaders/SinglePage.dart';
@@ -31,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return ResponsiveScaffold(
 
           navbarItems: [
-            NavbarItem(text: 'Home', icon: Icons.home_outlined, widget: MainPage()),
+            NavbarItem(text: 'Home', icon: Icons.home_outlined, widget:ProfilePage()),
             NavbarItem(
               text: 'Overview',
               icon: Icons.school_outlined,
