@@ -109,26 +109,21 @@ class ProfilePage extends StatelessWidget {
       ],
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile Page'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ProfileHeader(profile: profile),
-            const SizedBox(height: 20),
-            StudentStatusSection(profile: profile),
-            const SizedBox(height: 20),
-            SkillsSection(profile: profile),
-            const SizedBox(height: 20),
-            ExperienceSection(profile: profile),
-            const SizedBox(height: 20),
-            CertificateSection(profile: profile),
-          ],
-        ),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProfileHeader(profile: profile),
+          const SizedBox(height: 20),
+          StudentStatusSection(profile: profile),
+          const SizedBox(height: 20),
+          SkillsSection(profile: profile),
+          const SizedBox(height: 20),
+          ExperienceSection(profile: profile),
+          const SizedBox(height: 20),
+          CertificateSection(profile: profile),
+        ],
       ),
     );
   }
