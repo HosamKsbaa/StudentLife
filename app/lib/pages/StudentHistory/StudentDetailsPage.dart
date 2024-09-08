@@ -23,21 +23,29 @@ class StudentDetailPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 2.0),
             child: Row(
               children: [
-                Icon(icon, size: 18, color: Colors.blueAccent),
+                Icon(icon, size: 20, color: Colors.blueAccent),
                 SizedBox(width: 8),
-                Text('$label: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                Expanded(child: Text(value)),
+                Text('$label: ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                Expanded(child: Text(value, style: TextStyle(fontSize: 15))),
               ],
             ),
           );
         }
 
+        // Custom container design for course details
         Widget buildCourseDetails(HDCourse course) {
-          return Card(
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            color: Colors.blue.shade50,
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(color: Colors.grey.shade300, blurRadius: 5, spreadRadius: 2),
+              ],
+              border: Border.all(color: Colors.blue.shade100),
+            ),
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -53,24 +61,30 @@ class StudentDetailPage extends StatelessWidget {
           );
         }
 
-
+        // Custom container design for term details
         Widget _buildTermDetails(HDTerm term) {
           List<Widget> courseWidgets = [];
           for (var course in term.courses!) {
             courseWidgets.add(buildCourseDetails(course));
           }
 
-          return Card(
+          return Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
-            color: Colors.green.shade50,
+            decoration: BoxDecoration(
+              color: Colors.green.shade50,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.green.shade200),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Term: ${term.termName}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green)),
+                  SizedBox(height: 10),
                   _buildDetailRow(Icons.star_half, 'Term GPA', term.termGpa.toStringAsFixed(2)),
                   _buildDetailRow(Icons.credit_card, 'Total Credits', term.totalCredits.toString()),
+                  SizedBox(height: 10),
                   ...courseWidgets,
                 ],
               ),
@@ -78,23 +92,30 @@ class StudentDetailPage extends StatelessWidget {
           );
         }
 
+        // Custom container design for year details
         Widget _buildYearDetails(HDYear year) {
           List<Widget> termWidgets = [];
           for (var term in year.terms!) {
             termWidgets.add(_buildTermDetails(term));
           }
 
-          return Card(
+          return Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
-            color: Colors.orange.shade50,
+            decoration: BoxDecoration(
+              color: Colors.orange.shade50,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.orange.shade200),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Year: ${year.year}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.orange)),
+                  SizedBox(height: 10),
                   _buildDetailRow(Icons.grade, 'Year GPA', year.yearGpa.toStringAsFixed(2)),
                   _buildDetailRow(Icons.credit_card, 'Total Credits', year.totalCredits.toString()),
+                  SizedBox(height: 10),
                   ...termWidgets,
                 ],
               ),
@@ -102,6 +123,7 @@ class StudentDetailPage extends StatelessWidget {
           );
         }
 
+        // Section for academic details
         Widget _buildAcademicDetails() {
           List<Widget> yearsWidgets = [];
           for (var year in hDStudent.years!) {
@@ -110,9 +132,15 @@ class StudentDetailPage extends StatelessWidget {
           return Column(children: yearsWidgets);
         }
 
+        // Custom container design for student summary
         Widget _buildStudentSummary() {
-          return Card(
-            color: Colors.yellow.shade50,
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.yellow.shade50,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.yellow.shade200),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -136,6 +164,7 @@ class StudentDetailPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text('Student Details'),
+            backgroundColor: Colors.blueAccent,
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
