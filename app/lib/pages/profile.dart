@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 class Profile {
   final String name;
   final String major;
@@ -76,8 +75,8 @@ class ProfilePage extends StatelessWidget {
       completedCourses: 8,
       coursesInProgress: 6,
       skills: [
-        Skill(name: 'Leadership', score: 92),
-        Skill(name: 'Data Gathering', score: 88),
+        Skill(name: 'Leadership and Coordination', score: 92),
+        Skill(name: 'Data Gathering and Interpretation', score: 88),
         Skill(name: 'Capacity to Learn', score: 85),
       ],
       experiences: [
@@ -110,21 +109,26 @@ class ProfilePage extends StatelessWidget {
       ],
     );
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ProfileHeader(profile: profile),
-          const SizedBox(height: 20),
-          StudentStatusSection(profile: profile),
-          const SizedBox(height: 20),
-          SkillsSection(profile: profile),
-          const SizedBox(height: 20),
-          ExperienceSection(profile: profile),
-          const SizedBox(height: 20),
-          CertificateSection(profile: profile),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile Page'),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ProfileHeader(profile: profile),
+            const SizedBox(height: 20),
+            StudentStatusSection(profile: profile),
+            const SizedBox(height: 20),
+            SkillsSection(profile: profile),
+            const SizedBox(height: 20),
+            ExperienceSection(profile: profile),
+            const SizedBox(height: 20),
+            CertificateSection(profile: profile),
+          ],
+        ),
       ),
     );
   }
@@ -265,9 +269,17 @@ class CircularProgressBar extends StatelessWidget {
               child: CircularProgressIndicator(
                 value: value,
                 strokeWidth: 6,
+                backgroundColor: Colors.grey.shade300, // Background color for the circular bar
+                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF007ac3)), // Primary color #007ac3
               ),
             ),
-            Text('$number'),
+            Text(
+              '$number',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 5),
