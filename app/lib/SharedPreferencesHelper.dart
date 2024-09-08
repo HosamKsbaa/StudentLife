@@ -5,7 +5,7 @@ class SharedPreferencesHelper {
   static String baseUrlKey = " https://c946-84-36-10-2.ngrok-free.app";
   // static String baseUrlKey = "http://localhost:8122";
 
-  static String chatUrlKey = "http://84.36.10.10:8000/ask2";
+  static String chatUrlKey = "http://10.2.132.224:8000/ask2";
 // asd
   // StuId key
   static String stuIdKey = "211001892";
