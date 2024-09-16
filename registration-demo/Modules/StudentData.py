@@ -99,6 +99,7 @@ class HDStudent(BaseModel):
             return StudentLevel.FRESHMAN
 
 # Function to parse data from the CSV
+# Function to parse data from the CSV with handling for missing department values
 def parse_data_from_csv(file_path: str, valid_subtypes: List[str]) -> List[HDStudent]:
     data = pd.read_csv(file_path)
     students = {}
@@ -109,13 +110,16 @@ def parse_data_from_csv(file_path: str, valid_subtypes: List[str]) -> List[HDStu
 
         people_id = entry['PEOPLE_ID']
         if people_id not in students:
+            # Handle missing or NaN values in the department field
+            department = entry['department'] if pd.notna(entry['department']) else "Unknown"
+
             students[people_id] = HDStudent(
                 people_id=people_id,
                 program=entry['Program'],
                 degree=entry['degree'],
                 curriculum=entry['curriculum'],
                 college=entry['college'],
-                department=entry['department'],
+                department=department,  # Use the default "Unknown" for NaN values
                 years=[]
             )
 
