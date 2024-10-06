@@ -3,6 +3,7 @@ from pydantic import BaseModel
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from enum import Enum
+withdrawn_grades = ["W", "WB", "WP", "WF", "WD"]
 
 # Grade to GPA mapping
 grade_to_gpa = {
@@ -29,8 +30,12 @@ class HDCourse(BaseModel):
     gpa: float = 0.00  # Calculated GPA for the course
 
     def calculate_gpa(self):
-        if self.final_grade in grade_to_gpa:
-            self.gpa = grade_to_gpa[self.final_grade] 
+        # Exclude withdrawn grades from GPA calculation
+        if self.final_grade not in withdrawn_grades and self.final_grade in grade_to_gpa:
+            self.gpa = grade_to_gpa[self.final_grade]
+        else:
+            self.gpa = 0.00  # GPA remains 0 for withdrawn or ungraded courses
+            self.credit = 0  # Credits are also 0 for withdrawn or ungraded courses
 
 class HDTerm(BaseModel):
     term_name: str
