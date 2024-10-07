@@ -8,6 +8,7 @@ import 'package:retrofit/retrofit.dart';
 import '../models/hd_student.dart';
 import '../models/ra_response.dart';
 import '../models/student_response.dart';
+import '../models/x_profile.dart';
 
 part 'client_client.g.dart';
 
@@ -26,6 +27,13 @@ abstract class ClientClient {
   @GET('/student/{student_id}/progress')
   Future<HttpResponse<String>> getStudentProgressStudentStudentIdProgressGet({
     @Path('student_id') required String studentId,
+    @Extras() Map<String, dynamic>? extras,
+  });
+
+  /// Get Student Profile By Email
+  @GET('/students/email/{email}')
+  Future<HttpResponse<XProfile>> getStudentProfileByEmailStudentsEmailEmailGet({
+    @Path('email') required String email,
     @Extras() Map<String, dynamic>? extras,
   });
 

@@ -10,7 +10,7 @@ HDCourse _$HDCourseFromJson(Map<String, dynamic> json) => HDCourse(
       courseId: json['course_id'] as String,
       courseName: json['course_name'] as String,
       courseSection: (json['course_section'] as num).toInt(),
-      credit: (json['credit'] as num).toInt(),
+      credit: json['credit'] as num,
       finalGrade: json['final_grade'] as String? ?? 'N/A',
       gpa: json['gpa'] as num? ?? 0.0,
     );

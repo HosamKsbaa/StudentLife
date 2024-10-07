@@ -25,7 +25,7 @@ class HDCourse {
   final String courseName;
   @JsonKey(name: 'course_section')
   final int courseSection;
-  final int credit;
+  final num credit;
   @JsonKey(name: 'final_grade')
   final String finalGrade;
   final num gpa;

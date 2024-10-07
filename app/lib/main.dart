@@ -17,7 +17,8 @@ import 'ThemeData.dart';
 
 late RestClient restClient;
 late SharedPreferencesHelper sharedPreferencesHelper;
-String StuId = "211001892";
+late XProfile profile;
+// String StuId = "211001892";
 // import 'package:flutter/material.dart';
 
 // void main() {

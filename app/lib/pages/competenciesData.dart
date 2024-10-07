@@ -108,7 +108,7 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
           child: ApiSinglePage<StudentResponse>(
             httpRequestsStates: HDMHttpRequestsStates(),
             requestFunction: () => restClient.client.readStudentStudentStudentNameGet(
-              studentName: StuId,
+              studentName: profile.id,
               benchmarks: benchmarks,
             ),
             child: (context, studentDataFuture) {

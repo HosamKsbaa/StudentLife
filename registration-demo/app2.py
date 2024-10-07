@@ -10,6 +10,7 @@ from fastapi.responses import PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from fastapi import FastAPI, HTTPException, Query
+from Modules.StudentProfile import XProfile ,Xstudents_data
 
 
 from CompetenciesLogic.CompetenciesApi import  create_student, load_student_data
@@ -355,6 +356,15 @@ async def get_student_progress(student_id: str):
     os.remove(md_file_path)
 
     return markdown_content
+
+
+@app.get("/students/email/{email}", response_model=XProfile)
+def get_student_profile_by_email(email: str):
+    for student in Xstudents_data:
+        if student.email.lower() == email.lower():  # case insensitive email matching
+            return student
+    raise HTTPException(status_code=404, detail="Student not found")
+
 
 @app.get("/student/{student_id}/progress2", response_model=RAResponse)
 async def get_student_progress2(student_id: str):
