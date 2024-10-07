@@ -1,113 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-class Profile {
-  final String name;
-  final String major;
-  final String department;
-  final int currentSemester;
-  final int enrolledCourses;
-  final int completedCourses;
-  final int coursesInProgress;
-  final List<Skill> skills;
-  final List<Experience> experiences;
-  final List<Certificate> certificates;
 
-  Profile({
-    required this.name,
-    required this.major,
-    required this.department,
-    required this.currentSemester,
-    required this.enrolledCourses,
-    required this.completedCourses,
-    required this.coursesInProgress,
-    required this.skills,
-    required this.experiences,
-    required this.certificates,
-  });
-}
+import '../api/models/x_profile.dart';
+import '../hosamAddition/HttpReqstats/Loaders/SingleWidget.dart';
+import '../hosamAddition/HttpReqstats/httpStats.dart';
+import '../main.dart';
 
-class Skill {
-  final String name;
-  final int score;
-
-  Skill({required this.name, required this.score});
-}
-
-class Experience {
-  final String title;
-  final String company;
-  final String location;
-  final String period;
-
-  Experience({
-    required this.title,
-    required this.company,
-    required this.location,
-    required this.period,
-  });
-}
-
-class Certificate {
-  final String title;
-  final String issuer;
-  final String date;
-  final String credentialId;
-
-  Certificate({
-    required this.title,
-    required this.issuer,
-    required this.date,
-    required this.credentialId,
-  });
-}
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final profile = Profile(
-      name: 'Sara Mohamed Ayman',
-      major: 'Mechanical Engineering',
-      department: 'Applied Sciences and Engineering',
-      currentSemester: 4,
-      enrolledCourses: 15,
-      completedCourses: 8,
-      coursesInProgress: 6,
-      skills: [
-        Skill(name: 'Leadership and Coordination', score: 92),
-        Skill(name: 'Data Gathering and Interpretation', score: 88),
-        Skill(name: 'Capacity to Learn', score: 85),
-      ],
-      experiences: [
-        Experience(
-          title: 'Industrial Designer',
-          company: 'Fabcube Srl',
-          location: 'Vittorio Veneto, Italy',
-          period: 'Apr 2021 - Jul 2021',
-        ),
-        Experience(
-          title: 'Industrial Designer',
-          company: 'NilePreneurs',
-          location: 'Giza, Egypt',
-          period: 'Mar 2020 - May 2020',
-        ),
-      ],
-      certificates: [
-        Certificate(
-          title: 'Foundations of Project Management',
-          issuer: 'Coursera',
-          date: 'May 2023',
-          credentialId: 'MLZSH99VJK9K',
-        ),
-        Certificate(
-          title: 'Google UX Design Certificate',
-          issuer: 'Coursera',
-          date: 'Mar 2022',
-          credentialId: '',
-        ),
-      ],
-    );
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -130,7 +34,7 @@ class ProfilePage extends StatelessWidget {
 }
 
 class ProfileHeader extends StatelessWidget {
-  final Profile profile;
+  final XProfile profile;
 
   const ProfileHeader({super.key, required this.profile});
 
@@ -168,7 +72,7 @@ class ProfileHeader extends StatelessWidget {
 
 // Student Status Section with CircularProgressIndicator
 class StudentStatusSection extends StatelessWidget {
-  final Profile profile;
+  final XProfile profile;
 
   const StudentStatusSection({super.key, required this.profile});
 
@@ -209,7 +113,7 @@ class StudentStatusSection extends StatelessWidget {
 
 // Skills Section with CircularProgressIndicator
 class SkillsSection extends StatelessWidget {
-  final Profile profile;
+  final XProfile profile;
 
   const SkillsSection({super.key, required this.profile});
 
@@ -292,7 +196,7 @@ class CircularProgressBar extends StatelessWidget {
 }
 
 class ExperienceSection extends StatelessWidget {
-  final Profile profile;
+  final XProfile profile;
 
   const ExperienceSection({super.key, required this.profile});
 
@@ -320,7 +224,7 @@ class ExperienceSection extends StatelessWidget {
 }
 
 class CertificateSection extends StatelessWidget {
-  final Profile profile;
+  final XProfile profile;
 
   const CertificateSection({super.key, required this.profile});
 

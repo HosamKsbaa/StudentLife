@@ -17,7 +17,8 @@ import 'ThemeData.dart';
 
 late RestClient restClient;
 late SharedPreferencesHelper sharedPreferencesHelper;
-String StuId = "211001892";
+late XProfile profile;
+// String StuId = "211001892";
 // import 'package:flutter/material.dart';
 
 // void main() {
@@ -57,7 +58,9 @@ Future<void> main() async {
 }
 
 class UpdateUrlsPage extends StatefulWidget {
-  const UpdateUrlsPage({Key? key}) : super(key: key);
+  final String email;
+
+  const UpdateUrlsPage({Key? key,required this.email}) : super(key: key);
 
   @override
   _UpdateUrlsPageState createState() => _UpdateUrlsPageState();
@@ -117,27 +120,14 @@ class _UpdateUrlsPageState extends State<UpdateUrlsPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                List<String> studentIds = [
-                  '211001892',
-                  '211001926',
-                  '211001948',
-                  '211001978',
-                  '211002041',
-                  '211002132',
-                  '211002176',
-                  '211002194',
-                  '212002407',
-                  '221001592',
-                  '211001978',
-                ];
+
 
                 await _sharedPreferencesHelper.saveBaseUrl(_baseUrlController.text);
                 await _sharedPreferencesHelper.saveChatUrl(_chatUrlController.text);
 
-                String stuId = _stuIdController.text;
-
-                if (studentIds.contains(stuId)) {
-                  await _sharedPreferencesHelper.saveStuId(stuId);
+                // String stuId = _stuIdController.text;
+                //
+                //   await _sharedPreferencesHelper.saveStuId(stuId);
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('URLs updated successfully')),
@@ -147,15 +137,11 @@ class _UpdateUrlsPageState extends State<UpdateUrlsPage> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) => MyHomePage(
+                          email: widget.email,
                               title: 'Student Life',
-                              studentId: _stuIdController.text,
                             )),//sd
                   );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("The $stuId student's competency data isn't ready yet. Please choose another student.")),
-                  );
-                }
+
               },
               child: const Text('Update URLs'),
             ),
@@ -205,8 +191,9 @@ class MyApp extends StatelessWidget {
                 } else {
                   print("Loaded");
                   return AuthStart(
-                    afterLoggedInScreenBuilder: () => UpdateUrlsPage(),
-                    loggedInScreenBuilder: () => UpdateUrlsPage(),
+                    afterLoggedInScreenBuilder: (email) => UpdateUrlsPage(email:email),
+                    loggedInScreenBuilder: (email) => UpdateUrlsPage(email:email),
+
                   );
                 }
               }(),

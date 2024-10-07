@@ -6,8 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../models/hd_student.dart';
-import '../models/ra_response.dart';
 import '../models/student_response.dart';
+import '../models/student_states.dart';
 
 part 'client_client.g.dart';
 
@@ -29,10 +29,10 @@ abstract class ClientClient {
     @Extras() Map<String, dynamic>? extras,
   });
 
-  /// Get Student Progress2
-  @GET('/student/{student_id}/progress2')
-  Future<HttpResponse<RAResponse>> getStudentProgress2StudentStudentIdProgress2Get({
-    @Path('student_id') required String studentId,
+  /// Get Student States
+  @GET('/student/states/{email}')
+  Future<HttpResponse<StudentStates>> getStudentStatesStudentStatesEmailGet({
+    @Path('email') required String email,
     @Extras() Map<String, dynamic>? extras,
   });
 

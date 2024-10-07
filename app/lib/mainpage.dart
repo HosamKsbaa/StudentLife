@@ -10,14 +10,15 @@ import 'package:nu_ra_stu_jur/pages/gptchat.dart';
 import 'package:nu_ra_stu_jur/pages/profile.dart';
 import 'CustomResUI/scafold.dart';
 import 'api/models/ra_response.dart';
+import 'api/models/student_states.dart';
 import 'hosamAddition/HttpReqstats/Loaders/SinglePage.dart';
 import 'hosamAddition/HttpReqstats/httpStats.dart';
 import 'main.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title, required this.studentId});
-  final String studentId;
+  const MyHomePage({super.key, required this.title,required this.email});
   final String title;
+  final String email ;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -26,9 +27,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return ApiSinglePage<RAResponse>(
-      requestFunction: () => restClient.client.getStudentProgress2StudentStudentIdProgress2Get(studentId: widget.studentId),
-      child: (context, RAResponse data) {
+    return ApiSinglePage<StudentStates>(
+      requestFunction: () => restClient.client.getStudentStatesStudentStatesEmailGet(email: widget.email),
+      child: (context, StudentStates data) {
+        profile =data.profile;
         return ResponsiveScaffold(
 
           navbarItems: [
@@ -36,14 +38,14 @@ class _MyHomePageState extends State<MyHomePage> {
             NavbarItem(
               text: 'Overview',
               icon: Icons.school_outlined,
-              widget: CoursesOverviewPage(data: data),
+              widget: CoursesOverviewPage(data: data.progress),
             ),
             // NavbarItem(text: 'Eligible Courses', icon: Icons.check_circle_outline, widget: EligibleCoursesPage(data: data)),
             // NavbarItem(text: 'Ineligible Courses', icon: Icons.cancel_outlined, widget: IneligibleCoursesPage(data: data)),
             // NavbarItem(text: 'Category Progress', icon: Icons.assessment_outlined, widget: CategoryProgressPage(data: data)),
             // NavbarItem(text: 'Courses Tree', icon: Icons.account_tree_outlined, widget: ZoomableImagePage()),
             NavbarItem(text: 'EduBot', icon: Icons.chat_outlined, widget: const GptPage()),
-            NavbarItem(text: 'Competencies', icon: Icons.assessment_outlined, widget: RadarChartSample1(studentId: widget.studentId)),
+            NavbarItem(text: 'Competencies', icon: Icons.assessment_outlined, widget: RadarChartSample1(studentId: data.profile.id)),
           ],
           initialIndex: 0,
         );

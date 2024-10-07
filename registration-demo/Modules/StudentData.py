@@ -3,6 +3,7 @@ from pydantic import BaseModel
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from enum import Enum
+withdrawn_grades = ["W", "WB", "WP", "WF", "WD"]
 
 # Grade to GPA mapping
 grade_to_gpa = {
@@ -24,13 +25,17 @@ class HDCourse(BaseModel):
     course_id: str
     course_name: str
     course_section: int
-    credit: int
+    credit: float
     final_grade: str = "N/A"  # Default value for final_grade
     gpa: float = 0.00  # Calculated GPA for the course
 
     def calculate_gpa(self):
-        if self.final_grade in grade_to_gpa:
-            self.gpa = grade_to_gpa[self.final_grade] 
+        # Exclude withdrawn grades from GPA calculation
+        if self.final_grade not in withdrawn_grades and self.final_grade in grade_to_gpa:
+            self.gpa = grade_to_gpa[self.final_grade]
+        else:
+            self.gpa = 0.00  # GPA remains 0 for withdrawn or ungraded courses
+            self.credit = 0  # Credits are also 0 for withdrawn or ungraded courses
 
 class HDTerm(BaseModel):
     term_name: str
@@ -99,6 +104,8 @@ class HDStudent(BaseModel):
             return StudentLevel.FRESHMAN
 
 # Function to parse data from the CSV
+# Function to parse data from the CSV with handling for missing department values
+# Function to parse data from the CSV with handling for missing curriculum and department values
 def parse_data_from_csv(file_path: str, valid_subtypes: List[str]) -> List[HDStudent]:
     data = pd.read_csv(file_path)
     students = {}
@@ -109,13 +116,17 @@ def parse_data_from_csv(file_path: str, valid_subtypes: List[str]) -> List[HDStu
 
         people_id = entry['PEOPLE_ID']
         if people_id not in students:
+            # Handle missing or NaN values in department and curriculum fields
+            department = entry['department'] if pd.notna(entry['department']) else "Unknown"
+            curriculum = entry['curriculum'] if pd.notna(entry['curriculum']) else "Unknown"
+
             students[people_id] = HDStudent(
                 people_id=people_id,
                 program=entry['Program'],
                 degree=entry['degree'],
-                curriculum=entry['curriculum'],
+                curriculum=curriculum,  # Use the default "Unknown" for NaN values
                 college=entry['college'],
-                department=entry['department'],
+                department=department,  # Use the default "Unknown" for NaN values
                 years=[]
             )
 

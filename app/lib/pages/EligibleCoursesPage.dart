@@ -294,7 +294,6 @@ class _StudentInputPageState extends State<StudentInputPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => StudentDetailPage(
-                        studentId: int.parse(_controller.text),
                       ),
                     ),
                   );
@@ -348,8 +347,7 @@ class CoursesOverviewPage extends StatelessWidget {
             "History",
             "View the courses you have taken",
             Icons.history_outlined,
-            StudentInputPage(),
-          ),
+              StudentDetailPage(),          ),
         ],
       ),
     );

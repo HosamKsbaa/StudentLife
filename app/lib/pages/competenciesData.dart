@@ -62,9 +62,9 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
       children: [
         ProfileCard(
           imageUrl: 'assets/2024-07-30_17-37.png', // Update with the correct image path
-          name: 'Hosam Ksbaa',
-          major: 'Artificial Intelligence',
-          faculty: 'Computer Science and information technology',
+          name:  profile.name,
+          major: profile.major,
+          faculty: profile.department,
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -108,7 +108,7 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
           child: ApiSinglePage<StudentResponse>(
             httpRequestsStates: HDMHttpRequestsStates(),
             requestFunction: () => restClient.client.readStudentStudentStudentNameGet(
-              studentName: StuId,
+              studentName: profile.id,
               benchmarks: benchmarks,
             ),
             child: (context, studentDataFuture) {

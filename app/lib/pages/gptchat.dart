@@ -27,9 +27,9 @@ class GptPage extends StatefulWidget {
 
 class _GptPageState extends State<GptPage> {
   final List<types.Message> _messages = [];
-  final _user = const types.User(
+  final _user =  types.User(
     id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
-    firstName: 'Hosam Ksba',
+    firstName: profile.name,
     imageUrl: 'https://raw.githubusercontent.com/HosamKsbaa/Public-Media/main/Nulogo.png', // Replace with actual user avatar URL
   );
   final _bot = const types.User(
@@ -90,7 +90,7 @@ class _GptPageState extends State<GptPage> {
       final response = await _dio.post(
         url,
         options: Options(headers: {'Content-Type': 'application/json'}),
-        data: jsonEncode({'questions': question}),
+        data: jsonEncode({'question': question}),
       );
 
       if (response.statusCode == 200) {
