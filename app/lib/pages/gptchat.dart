@@ -90,7 +90,7 @@ class _GptPageState extends State<GptPage> {
       final response = await _dio.post(
         url,
         options: Options(headers: {'Content-Type': 'application/json'}),
-        data: jsonEncode({'questions': question}),
+        data: jsonEncode({'question': question}),
       );
 
       if (response.statusCode == 200) {

@@ -18,6 +18,9 @@ from CompetenciesLogic.models import CompetenciesStudent, StudentResponse
 from Modules.StudentData import HDStudent, parse_data_from_csv
 from classes import *
 
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+# Allow all origins (use carefully)
 
 def load_categories(file_path: str) -> List[Category]:
     categories = []
