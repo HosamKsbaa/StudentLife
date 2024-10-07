@@ -58,7 +58,9 @@ Future<void> main() async {
 }
 
 class UpdateUrlsPage extends StatefulWidget {
-  const UpdateUrlsPage({Key? key}) : super(key: key);
+  final String email;
+
+  const UpdateUrlsPage({Key? key,required this.email}) : super(key: key);
 
   @override
   _UpdateUrlsPageState createState() => _UpdateUrlsPageState();
@@ -135,6 +137,7 @@ class _UpdateUrlsPageState extends State<UpdateUrlsPage> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) => MyHomePage(
+                          email: widget.email,
                               title: 'Student Life',
                             )),//sd
                   );
@@ -188,8 +191,9 @@ class MyApp extends StatelessWidget {
                 } else {
                   print("Loaded");
                   return AuthStart(
-                    afterLoggedInScreenBuilder: () => UpdateUrlsPage(),
-                    loggedInScreenBuilder: () => UpdateUrlsPage(),
+                    afterLoggedInScreenBuilder: (email) => UpdateUrlsPage(email:email),
+                    loggedInScreenBuilder: (email) => UpdateUrlsPage(email:email),
+
                   );
                 }
               }(),

@@ -16,8 +16,9 @@ import 'hosamAddition/HttpReqstats/httpStats.dart';
 import 'main.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title,required this.email});
   final String title;
+  final String email ;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -27,8 +28,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return ApiSinglePage<StudentStates>(
-      requestFunction: () => restClient.client.getStudentStatesStudentStatesEmailGet(email: email),
+      requestFunction: () => restClient.client.getStudentStatesStudentStatesEmailGet(email: widget.email),
       child: (context, StudentStates data) {
+        profile =data.profile;
         return ResponsiveScaffold(
 
           navbarItems: [

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:nu_ra_stu_jur/Auth/LocalAuth/FireabaseAuth.dart';
 import 'package:nu_ra_stu_jur/pages/settings/settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../ThemeData.dart';
+import '../main.dart';
 import 'NotificationPage.dart';
 
 class DrawerTileAction extends StatelessWidget {
@@ -88,7 +90,7 @@ class HDMDrawer extends StatelessWidget {
                                     backgroundImage: AssetImage('assets/2024-07-30_17-37.png'), // Use backgroundImage instead of child
                                   ),
                                 ),
-                                const Column(
+                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -110,7 +112,7 @@ class HDMDrawer extends StatelessWidget {
                                     Padding(
                                       padding: EdgeInsets.all(5.0),
                                       child: Text(
-                                        "Hosam Ksba" + " Welcome",
+                                        "${profile.name} Welcome",
                                         style: TextStyle(
                                           color: Colors.white70,
                                         ),
@@ -213,6 +215,7 @@ class HDMDrawer extends StatelessWidget {
                     ),
                   ),
                   onTap: () async {
+                    AuthService.logout();
                     Navigator.pop(context);
                   },
                 ),

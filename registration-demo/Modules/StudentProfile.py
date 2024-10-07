@@ -8,11 +8,13 @@ class Skill(BaseModel):
     name: str
     score: int
 
+
 class Experience(BaseModel):
     title: str
     company: str
     location: str
     period: str
+
 
 class Certificate(BaseModel):
     title: str
@@ -20,13 +22,14 @@ class Certificate(BaseModel):
     date: str
     credentialId: str
 
+
 class XProfile(BaseModel):
     id: str
     email: str
     name: str
     password: str
-    major: str = "Computer Science"
-    department: str = "Computer Science Department"
+    major: str = "Artificial intelligence"
+    department: str = "Computer Science and information technology"
     currentSemester: int
     enrolledCourses: int
     completedCourses: int
@@ -41,7 +44,7 @@ Xstudents_data = [
     XProfile(
         id="211001892",
         email="A.sameh2192@nu.edu.eg",
-        name="Arwa Sameh Salah",
+        name="Arwa Sameh ",
         password="xp982a26",
         currentSemester=4,
         enrolledCourses=5,
@@ -53,16 +56,22 @@ Xstudents_data = [
             Skill(name="Algorithms", score=88)
         ],
         experiences=[
-            Experience(title="Intern", company="XYZ Corp", location="Cairo", period="3 months")
-        ],
+            Experience(title="AI Research Assistant",
+                       company="AI Research Lab", location="Cairo", period="5 months"),
+            Experience(title="Web Developer", company="Web Solutions",
+                       location="Cairo", period="6 months"),
+            Experience(title="Cloud Intern", company="Cloud Co", location="Alexandria", period="4 months")],
         certificates=[
-            Certificate(title="Python Certification", issuer="Coursera", date="2023-01-15", credentialId="XYZ12345")
-        ]
+            Certificate(title="AI Certification", issuer="Google",
+                        date="2023-07-01", credentialId="VWX45678"),
+            Certificate(title="Cloud Computing Certification",
+                        issuer="AWS", date="2023-06-01", credentialId="STU98765"),
+            Certificate(title="Web Development Certification", issuer="Udemy", date="2023-03-25", credentialId="PQR23456")]
     ),
     XProfile(
         id="211001926",
         email="M.Ahmed2126@nu.edu.eg",
-        name="Mohamed Ahmed Abdelazim",
+        name="Mohamed Ahmed ",
         password="5o71fv5t",
         currentSemester=6,
         enrolledCourses=7,
@@ -74,16 +83,22 @@ Xstudents_data = [
             Skill(name="Software Engineering", score=88)
         ],
         experiences=[
-            Experience(title="Developer Intern", company="ABC Corp", location="Alexandria", period="4 months")
-        ],
+            Experience(title="AI Research Assistant",
+                       company="AI Research Lab", location="Cairo", period="5 months"),
+            Experience(title="Web Developer", company="Web Solutions",
+                       location="Cairo", period="6 months"),
+            Experience(title="Cloud Intern", company="Cloud Co", location="Alexandria", period="4 months")],
         certificates=[
-            Certificate(title="Java Certification", issuer="Udemy", date="2023-03-10", credentialId="ABC98765")
-        ]
+            Certificate(title="AI Certification", issuer="Google",
+                        date="2023-07-01", credentialId="VWX45678"),
+            Certificate(title="Cloud Computing Certification",
+                        issuer="AWS", date="2023-06-01", credentialId="STU98765"),
+            Certificate(title="Web Development Certification", issuer="Udemy", date="2023-03-25", credentialId="PQR23456")]
     ),
     XProfile(
         id="211001948",
         email="Y.Mohammed2148@nu.edu.eg",
-        name="Yousef Mohammed Yacoub",
+        name="Yousef Mohammed ",
         password="29i65wji",
         currentSemester=3,
         enrolledCourses=6,
@@ -95,16 +110,22 @@ Xstudents_data = [
             Skill(name="Computer Networks", score=80)
         ],
         experiences=[
-            Experience(title="Research Assistant", company="AI Lab", location="Cairo", period="5 months")
-        ],
+            Experience(title="AI Research Assistant",
+                       company="AI Research Lab", location="Cairo", period="5 months"),
+            Experience(title="Web Developer", company="Web Solutions",
+                       location="Cairo", period="6 months"),
+            Experience(title="Cloud Intern", company="Cloud Co", location="Alexandria", period="4 months")],
         certificates=[
-            Certificate(title="C++ Certification", issuer="LinkedIn Learning", date="2022-12-01", credentialId="DEF54321")
-        ]
+            Certificate(title="AI Certification", issuer="Google",
+                        date="2023-07-01", credentialId="VWX45678"),
+            Certificate(title="Cloud Computing Certification",
+                        issuer="AWS", date="2023-06-01", credentialId="STU98765"),
+            Certificate(title="Web Development Certification", issuer="Udemy", date="2023-03-25", credentialId="PQR23456")]
     ),
     XProfile(
         id="211001978",
         email="a.khaled2178@nu.edu.eg",
-        name="Abdallah Khaled Gadallah",
+        name="Abdallah Khaled ",
         password="23p0dsqh",
         currentSemester=7,
         enrolledCourses=8,
@@ -116,16 +137,22 @@ Xstudents_data = [
             Skill(name="Deep Learning", score=90)
         ],
         experiences=[
-            Experience(title="ML Intern", company="Tech Corp", location="Giza", period="4 months")
-        ],
+            Experience(title="AI Research Assistant",
+                       company="AI Research Lab", location="Cairo", period="5 months"),
+            Experience(title="Web Developer", company="Web Solutions",
+                       location="Cairo", period="6 months"),
+            Experience(title="Cloud Intern", company="Cloud Co", location="Alexandria", period="4 months")],
         certificates=[
-            Certificate(title="ML Certification", issuer="Google", date="2023-05-15", credentialId="GHI87654")
-        ]
+            Certificate(title="AI Certification", issuer="Google",
+                        date="2023-07-01", credentialId="VWX45678"),
+            Certificate(title="Cloud Computing Certification",
+                        issuer="AWS", date="2023-06-01", credentialId="STU98765"),
+            Certificate(title="Web Development Certification", issuer="Udemy", date="2023-03-25", credentialId="PQR23456")]
     ),
     XProfile(
         id="211002132",
         email="A.Mohammed2132@nu.edu.eg",
-        name="Abdullah Mohammed Amr",
+        name="Abdullah Mohammed ",
         password="4p71730v",
         currentSemester=5,
         enrolledCourses=6,
@@ -137,16 +164,22 @@ Xstudents_data = [
             Skill(name="Big Data", score=87)
         ],
         experiences=[
-            Experience(title="Data Analyst", company="FinTech", location="Cairo", period="6 months")
-        ],
+            Experience(title="AI Research Assistant",
+                       company="AI Research Lab", location="Cairo", period="5 months"),
+            Experience(title="Web Developer", company="Web Solutions",
+                       location="Cairo", period="6 months"),
+            Experience(title="Cloud Intern", company="Cloud Co", location="Alexandria", period="4 months")],
         certificates=[
-            Certificate(title="Data Science Certification", issuer="Coursera", date="2023-02-20", credentialId="JKL34567")
-        ]
+            Certificate(title="AI Certification", issuer="Google",
+                        date="2023-07-01", credentialId="VWX45678"),
+            Certificate(title="Cloud Computing Certification",
+                        issuer="AWS", date="2023-06-01", credentialId="STU98765"),
+            Certificate(title="Web Development Certification", issuer="Udemy", date="2023-03-25", credentialId="PQR23456")]
     ),
     XProfile(
         id="211002176",
         email="s.ahmed2176@nu.edu.eg",
-        name="Sara Ahmed Salah",
+        name="Sara Ahmed ",
         password="cs5w12z9",
         currentSemester=4,
         enrolledCourses=5,
@@ -158,16 +191,22 @@ Xstudents_data = [
             Skill(name="Network Security", score=88)
         ],
         experiences=[
-            Experience(title="Cybersecurity Intern", company="Security Co", location="Cairo", period="3 months")
-        ],
+            Experience(title="AI Research Assistant",
+                       company="AI Research Lab", location="Cairo", period="5 months"),
+            Experience(title="Web Developer", company="Web Solutions",
+                       location="Cairo", period="6 months"),
+            Experience(title="Cloud Intern", company="Cloud Co", location="Alexandria", period="4 months")],
         certificates=[
-            Certificate(title="Cybersecurity Certification", issuer="Udacity", date="2023-04-10", credentialId="MNO76543")
-        ]
+            Certificate(title="AI Certification", issuer="Google",
+                        date="2023-07-01", credentialId="VWX45678"),
+            Certificate(title="Cloud Computing Certification",
+                        issuer="AWS", date="2023-06-01", credentialId="STU98765"),
+            Certificate(title="Web Development Certification", issuer="Udemy", date="2023-03-25", credentialId="PQR23456")]
     ),
     XProfile(
         id="211002194",
         email="m.moamen2194@nu.edu.eg",
-        name="Mohamed Moamen Sayed",
+        name="Mohamed Moamen ",
         password="g8jy8zl8",
         currentSemester=6,
         enrolledCourses=7,
@@ -179,16 +218,22 @@ Xstudents_data = [
             Skill(name="NodeJS", score=83)
         ],
         experiences=[
-            Experience(title="Web Developer", company="Web Solutions", location="Cairo", period="6 months")
-        ],
+            Experience(title="AI Research Assistant",
+                       company="AI Research Lab", location="Cairo", period="5 months"),
+            Experience(title="Web Developer", company="Web Solutions",
+                       location="Cairo", period="6 months"),
+            Experience(title="Cloud Intern", company="Cloud Co", location="Alexandria", period="4 months")],
         certificates=[
-            Certificate(title="Web Development Certification", issuer="Udemy", date="2023-03-25", credentialId="PQR23456")
-        ]
+            Certificate(title="AI Certification", issuer="Google",
+                        date="2023-07-01", credentialId="VWX45678"),
+            Certificate(title="Cloud Computing Certification",
+                        issuer="AWS", date="2023-06-01", credentialId="STU98765"),
+            Certificate(title="Web Development Certification", issuer="Udemy", date="2023-03-25", credentialId="PQR23456")]
     ),
     XProfile(
         id="212002407",
         email="o.mohamed2107@nu.edu.eg",
-        name="Omar Mohamed Gera",
+        name="Omar Mohamed ",
         password="b769goai",
         currentSemester=5,
         enrolledCourses=6,
@@ -200,16 +245,22 @@ Xstudents_data = [
             Skill(name="Azure", score=85)
         ],
         experiences=[
-            Experience(title="Cloud Intern", company="Cloud Co", location="Alexandria", period="4 months")
-        ],
+            Experience(title="AI Research Assistant",
+                       company="AI Research Lab", location="Cairo", period="5 months"),
+            Experience(title="Web Developer", company="Web Solutions",
+                       location="Cairo", period="6 months"),
+            Experience(title="Cloud Intern", company="Cloud Co", location="Alexandria", period="4 months")],
         certificates=[
-            Certificate(title="Cloud Computing Certification", issuer="AWS", date="2023-06-01", credentialId="STU98765")
-        ]
+            Certificate(title="AI Certification", issuer="Google",
+                        date="2023-07-01", credentialId="VWX45678"),
+            Certificate(title="Cloud Computing Certification",
+                        issuer="AWS", date="2023-06-01", credentialId="STU98765"),
+            Certificate(title="Web Development Certification", issuer="Udemy", date="2023-03-25", credentialId="PQR23456")]
     ),
     XProfile(
         id="221001592",
         email="f.mohamed2292@nu.edu.eg",
-        name="Farah Mohamed Ibrahem",
+        name="Farah Mohamed ",
         password="l62c0t15",
         currentSemester=4,
         enrolledCourses=5,
@@ -221,10 +272,23 @@ Xstudents_data = [
             Skill(name="Natural Language Processing", score=87)
         ],
         experiences=[
-            Experience(title="AI Research Assistant", company="AI Research Lab", location="Cairo", period="5 months")
+            Experience(title="AI Research Assistant",
+                       company="AI Research Lab", location="Cairo", period="5 months"),
+            Experience(title="Web Developer", company="Web Solutions",
+                       location="Cairo", period="6 months"),
+            Experience(title="Cloud Intern", company="Cloud Co",
+                       location="Alexandria", period="4 months")
+
         ],
         certificates=[
-            Certificate(title="AI Certification", issuer="Google", date="2023-07-01", credentialId="VWX45678")
+            Certificate(title="AI Certification", issuer="Google",
+                        date="2023-07-01", credentialId="VWX45678"),
+            Certificate(title="Cloud Computing Certification",
+                        issuer="AWS", date="2023-06-01", credentialId="STU98765"),
+            Certificate(title="Web Development Certification",
+                        issuer="Udemy", date="2023-03-25", credentialId="PQR23456")
+
+
         ]
     ),
 ]

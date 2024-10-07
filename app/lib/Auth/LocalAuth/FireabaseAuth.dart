@@ -28,12 +28,13 @@ class AuthService {
       GlobalNavigator.showSignInPage();
     } else {
       print('User is not null. Navigating to appropriate page.');
-      GlobalNavigator.navigateToAppropriatePage(true);
+      GlobalNavigator.navigateToAppropriatePage(true, user.email ?? 'unknown');
     }
   }
 
-  Future<void> signOut() async {
-    await _auth.signOut();
+  static Future<void> logout() async {
+    await AuthService.instance._auth.signOut();
+    GlobalNavigator.showSignInPage();
   }
 
   Future<User?> signInWithGoogle() async {
@@ -44,14 +45,14 @@ class AuthService {
     }
 
     final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+    await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
 
     final UserCredential userCredential =
-        await _auth.signInWithCredential(credential);
+    await _auth.signInWithCredential(credential);
     return userCredential.user;
   }
 }
@@ -63,12 +64,13 @@ class GlobalNavigator {
       GlobalKey<NavigatorState>();
   static BuildContext? get context => navigatorKey.currentContext;
 
-  static Widget Function()? _loggedInScreenBuilder;
-  static Widget Function()? _afterLoggedInScreenBuilder;
+  static Widget Function(String Email)? _loggedInScreenBuilder;
+  static Widget Function(String Email)? _afterLoggedInScreenBuilder;
+  static Widget Function()? _LogOutScreenBuilder;
 
   /// Sets the screen builders for logged-in and after-logged-in states.
-  static void setScreenBuilders(Widget Function() loggedInScreenBuilder,
-      Widget Function() afterLoggedInScreenBuilder) {
+  static void setScreenBuilders(Widget Function(String Email) loggedInScreenBuilder,
+      Widget Function(String Email) afterLoggedInScreenBuilder) {
     _loggedInScreenBuilder = loggedInScreenBuilder;
     _afterLoggedInScreenBuilder = afterLoggedInScreenBuilder;
   }
@@ -103,7 +105,7 @@ class GlobalNavigator {
                 (context, state) {
               User? user = state.user;
               if (user != null) {
-                navigateToAppropriatePage(true);
+                navigateToAppropriatePage(true,user.email ?? 'unknown');
               }
             }),
           ],
@@ -114,20 +116,21 @@ class GlobalNavigator {
   }
 
   /// Navigates to the appropriate page based on the user's state.
-  static void navigateToAppropriatePage(bool hasJustLoggedIn) {
+  static void navigateToAppropriatePage(bool hasJustLoggedIn, String email) {
     if (context == null) return;
 
-    Widget Function()? screenBuilder =
-        hasJustLoggedIn ? _afterLoggedInScreenBuilder : _loggedInScreenBuilder;
+    Widget Function(String Email)? screenBuilder =
+    hasJustLoggedIn ? _afterLoggedInScreenBuilder : _loggedInScreenBuilder;
 
     if (screenBuilder != null) {
       Navigator.pushAndRemoveUntil(
         context!,
-        MaterialPageRoute(builder: (context) => screenBuilder!()),
-        (Route<dynamic> route) => false,
+        MaterialPageRoute(builder: (context) => screenBuilder(email)),
+            (Route<dynamic> route) => false,
       );
     }
   }
+
 
   /// Shows the email verification page.
   static void showEmailVerificationPage() {
@@ -137,7 +140,7 @@ class GlobalNavigator {
       MaterialPageRoute(
         builder: (context) => FirebaseUIAuth.EmailVerificationScreen(
           actions: [
-            FirebaseUIAuth.EmailVerifiedAction(_afterLoggedInScreenBuilder!),
+            FirebaseUIAuth.EmailVerifiedAction(()=>_afterLoggedInScreenBuilder!("emial")),
             FirebaseUIAuth.AuthCancelledAction((context) {
               FirebaseUIAuth.FirebaseUIAuth.signOut(context: context);
               Navigator.pop(context);
@@ -152,8 +155,8 @@ class GlobalNavigator {
 
 /// Widget for starting the authentication process.
 class AuthStart extends StatefulWidget {
-  final Widget Function() loggedInScreenBuilder;
-  final Widget Function() afterLoggedInScreenBuilder;
+  final Widget Function(String Email) loggedInScreenBuilder;
+  final Widget Function(String Email) afterLoggedInScreenBuilder;
 
   const AuthStart({
     Key? key,

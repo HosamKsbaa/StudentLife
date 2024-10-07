@@ -8,9 +8,9 @@ import '../../api/models/hd_year.dart';
 import '../../hosamAddition/HttpReqstats/httpStats.dart';
 
 class StudentDetailPage extends StatelessWidget {
-  final int studentId;
+  final int studentId=int.parse(profile.id);
 
-  StudentDetailPage({required this.studentId});
+  StudentDetailPage();
 
   @override
   Widget build(BuildContext context) {
