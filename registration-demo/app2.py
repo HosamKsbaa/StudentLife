@@ -358,16 +358,27 @@ async def get_student_progress(student_id: str):
     return markdown_content
 
 
-@app.get("/students/email/{email}", response_model=XProfile)
-def get_student_profile_by_email(email: str):
+# Define the models used in the response
+
+class StudentStates(BaseModel):
+    profile: XProfile
+    progress: RAResponse
+
+@app.get("/student/states/{email}", response_model=StudentStates)
+async def get_student_states(email: str):
+    # First, fetch the student profile by email
+    student_profile = None
     for student in Xstudents_data:
-        if student.email.lower() == email.lower():  # case insensitive email matching
-            return student
-    raise HTTPException(status_code=404, detail="Student not found")
+        if student.email.lower() == email.lower():  # Case insensitive matching
+            student_profile = student
+            break
+    
+    if not student_profile:
+        raise HTTPException(status_code=404, detail="Student profile not found")
 
+    student_id = student_profile.id
 
-@app.get("/student/{student_id}/progress2", response_model=RAResponse)
-async def get_student_progress2(student_id: str):
+    # Now fetch the student's progress using their student ID
     student, student_data, graph_output = process_student_data(student_id)
 
     def build_course_info(course_json):
@@ -392,8 +403,6 @@ async def get_student_progress2(student_id: str):
             dependency_tree=build_dependency_tree_from_json(course_json.get('dependency_tree', {}))
         )
 
-
-
     def build_dependency_tree_from_json(dependency_tree_json):
         if isinstance(dependency_tree_json, dict):
             return DependencyTree(
@@ -413,7 +422,7 @@ async def get_student_progress2(student_id: str):
         else:
             raise ValueError(f"Unsupported type for dependency_tree_json: {type(dependency_tree_json)}")
 
-    return RAResponse(
+    student_progress = RAResponse(
         id=student_id,
         student_data=StudentData(
             eligible_courses={
@@ -433,6 +442,11 @@ async def get_student_progress2(student_id: str):
         graph_output=graph_output
     )
 
+    # Return both profile and progress
+    return StudentStates(
+        profile=student_profile,
+        progress=student_progress
+    )
 students_data:CompetenciesStudent = load_student_data('data/Competencies/CompetenciesDataTempStu.csv')
 df = load_student_data('data/Competencies/CompetenciesDataTempStu.csv')
 

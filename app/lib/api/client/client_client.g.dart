@@ -85,7 +85,7 @@ class _ClientClient implements ClientClient {
   }
 
   @override
-  Future<HttpResponse<XProfile>> getStudentProfileByEmailStudentsEmailEmailGet({
+  Future<HttpResponse<StudentStates>> getStudentStatesStudentStatesEmailGet({
     required String email,
     Map<String, dynamic>? extras,
   }) async {
@@ -96,14 +96,14 @@ class _ClientClient implements ClientClient {
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<XProfile>>(Options(
+        _setStreamType<HttpResponse<StudentStates>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/students/email/${email}',
+              '/student/states/${email}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -112,41 +112,7 @@ class _ClientClient implements ClientClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = XProfile.fromJson(_result.data!);
-    final httpResponse = HttpResponse(_value, _result);
-    return httpResponse;
-  }
-
-  @override
-  Future<HttpResponse<RAResponse>>
-      getStudentProgress2StudentStudentIdProgress2Get({
-    required String studentId,
-    Map<String, dynamic>? extras,
-  }) async {
-    final _extra = <String, dynamic>{};
-    _extra.addAll(extras ?? <String, dynamic>{});
-    final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<RAResponse>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/student/${studentId}/progress2',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final _value = RAResponse.fromJson(_result.data!);
+    final _value = StudentStates.fromJson(_result.data!);
     final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }

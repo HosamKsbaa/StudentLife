@@ -118,27 +118,14 @@ class _UpdateUrlsPageState extends State<UpdateUrlsPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                List<String> studentIds = [
-                  '211001892',
-                  '211001926',
-                  '211001948',
-                  '211001978',
-                  '211002041',
-                  '211002132',
-                  '211002176',
-                  '211002194',
-                  '212002407',
-                  '221001592',
-                  '211001978',
-                ];
+
 
                 await _sharedPreferencesHelper.saveBaseUrl(_baseUrlController.text);
                 await _sharedPreferencesHelper.saveChatUrl(_chatUrlController.text);
 
-                String stuId = _stuIdController.text;
-
-                if (studentIds.contains(stuId)) {
-                  await _sharedPreferencesHelper.saveStuId(stuId);
+                // String stuId = _stuIdController.text;
+                //
+                //   await _sharedPreferencesHelper.saveStuId(stuId);
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('URLs updated successfully')),
@@ -149,14 +136,9 @@ class _UpdateUrlsPageState extends State<UpdateUrlsPage> {
                     MaterialPageRoute(
                         builder: (context) => MyHomePage(
                               title: 'Student Life',
-                              studentId: _stuIdController.text,
                             )),//sd
                   );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("The $stuId student's competency data isn't ready yet. Please choose another student.")),
-                  );
-                }
+
               },
               child: const Text('Update URLs'),
             ),

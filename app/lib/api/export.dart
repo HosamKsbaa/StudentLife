@@ -22,6 +22,7 @@ export 'models/skill.dart';
 export 'models/student_data.dart';
 export 'models/student_level.dart';
 export 'models/student_response.dart';
+export 'models/student_states.dart';
 export 'models/sub_category.dart';
 export 'models/validation_error.dart';
 export 'models/x_profile.dart';

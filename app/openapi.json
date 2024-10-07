@@ -83,10 +83,10 @@
                 }
             }
         },
-        "/students/email/{email}": {
+        "/student/states/{email}": {
             "get": {
-                "summary": "Get Student Profile By Email",
-                "operationId": "get_student_profile_by_email_students_email__email__get",
+                "summary": "Get Student States",
+                "operationId": "get_student_states_student_states__email__get",
                 "parameters": [
                     {
                         "name": "email",
@@ -104,46 +104,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/XProfile"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/student/{student_id}/progress2": {
-            "get": {
-                "summary": "Get Student Progress2",
-                "operationId": "get_student_progress2_student__student_id__progress2_get",
-                "parameters": [
-                    {
-                        "name": "student_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "title": "Student Id"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RAResponse"
+                                    "$ref": "#/components/schemas/StudentStates"
                                 }
                             }
                         }
@@ -743,6 +704,22 @@
                     "comparison_list"
                 ],
                 "title": "StudentResponse"
+            },
+            "StudentStates": {
+                "properties": {
+                    "profile": {
+                        "$ref": "#/components/schemas/XProfile"
+                    },
+                    "progress": {
+                        "$ref": "#/components/schemas/RAResponse"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "profile",
+                    "progress"
+                ],
+                "title": "StudentStates"
             },
             "SubCategory": {
                 "properties": {
